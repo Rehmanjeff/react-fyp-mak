@@ -15,6 +15,7 @@ function App() {
 
   function RequireAuth({ children, redirectTo }) {
     const {user} = useContext(AuthContext);
+    console.log(user);
 
     if (!user) {
       return null; // or loading indicator, etc...
@@ -41,8 +42,8 @@ function App() {
             />
 
             <Route path="/profile" element={
-            <Profile/>
-            } />
+            <AuthProvider><RequireAuth redirectTo="/"><Profile/></RequireAuth></AuthProvider>
+              } />
 
             <Route path="/chatBox" element={
               <AuthProvider><RequireAuth redirectTo="/"><ChatBox/></RequireAuth></AuthProvider>

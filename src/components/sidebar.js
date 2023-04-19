@@ -10,9 +10,22 @@ import {
 import { NavLink } from 'react-router-dom';
 import "../home.css";
 import '../App.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function SideBar() {
+    const navigate = useNavigate();
+    const logout = (event) => {
+        event.preventDefault();
+        const token = JSON.parse(localStorage.getItem('authTokens'));
+        axios.post('http://127.0.0.1:8000/accounts/api/logout/', { refresh: token.refresh },{ headers: {"Authorization" : `Bearer ${token.access}`} })
+        .then((response) => {
+            localStorage.removeItem('authTokens');
+            localStorage.removeItem('authdata');
+            navigate('/');
+          })
+    }
   return (
     <div>
       <div className='d-inline p-2' style={{marginRight:"-17px"}}>
@@ -44,7 +57,7 @@ export default function SideBar() {
                     <CDBSidebarMenuItem fas icon="key">Change Password</CDBSidebarMenuItem>
                 </NavLink>
 
-                <NavLink exact to="#" target="_blank" activeClassName="activeClicked">
+                <NavLink onClick={logout}>
                     <CDBSidebarMenuItem fas icon="user-lock">Log Out</CDBSidebarMenuItem>
                 </NavLink>
                 </CDBSidebarMenu>
