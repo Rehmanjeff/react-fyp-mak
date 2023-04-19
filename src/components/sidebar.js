@@ -8,8 +8,9 @@ import {
   CDBSidebarMenuItem,
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
-import "../home.css"
+import "../home.css";
 import '../App.css';
+
 
 export default function SideBar() {
   return (

@@ -1,7 +1,7 @@
 import React,{useContext} from 'react';
 import UserLogin from "./components/UserLogin";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
-import Profile from './components/Profile/Profile';
+import Profile from './components/Profile';
 import ChatBox from './components/ChatBox/Index';
 import { AuthProvider } from './authContext/authcontext'
 import AuthContext from './authContext/authcontext';
@@ -41,7 +41,7 @@ function App() {
             />
 
             <Route path="/profile" element={
-              <AuthProvider><RequireAuth redirectTo="/"><Profile/></RequireAuth></AuthProvider>
+            <Profile/>
             } />
 
             <Route path="/chatBox" element={

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Profile from './Profile.css'
+//import Profile from './Profile.css'
 
 const propTypes = {
   picture: PropTypes.string,
