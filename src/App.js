@@ -33,9 +33,9 @@ function App() {
             <Route path="/signup" element={<SignUp />}/>
             {//<Route path='/otp' element={<Otp/>}/>
             }
-            <Route path="/home" element={<Home/>}/>
-
             
+            <Route path="/home" element={<AuthProvider><RequireAuth redirectTo="/"><Home/></RequireAuth></AuthProvider>}/>
+
             <Route path="/otp" element=
             {<AuthProvider><RequireAuth redirectTo="/"><Otp/></RequireAuth></AuthProvider>}
             />
@@ -43,10 +43,12 @@ function App() {
             <Route path="/profile" element={
               <AuthProvider><RequireAuth redirectTo="/"><Profile/></RequireAuth></AuthProvider>
             } />
+
             <Route path="/chatBox" element={
               <AuthProvider><RequireAuth redirectTo="/"><ChatBox/></RequireAuth></AuthProvider>
             } />
             <Route render={() => <h1>Not found!</h1>} />
+
           </Routes>
         </BrowserRouter>
 
