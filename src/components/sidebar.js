@@ -53,7 +53,7 @@ export default function SideBar() {
                 <NavLink exact to="#" activeclassname="activeClicked">
                     <CDBSidebarMenuItem fa icon="gear">Account Settings</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="#" activeclassname ="activeClicked">
+                <NavLink exact to="/changepassword" activeclassname ="activeClicked">
                     <CDBSidebarMenuItem fas icon="key">Change Password</CDBSidebarMenuItem>
                 </NavLink>
 

@@ -31,7 +31,7 @@ function SignUp() {
     setIsActive(false);
     axios.post('http://127.0.0.1:8000/accounts/api/register/', formValue)
     .then((response) => {
-        console.log(response);
+        
       })
     .catch((error) => {
         var err = null;

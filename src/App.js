@@ -8,6 +8,7 @@ import AuthContext from './authContext/authcontext';
 import SignUp from './components/signup';
 import Otp from './components/otp';
 import Home from './components/Home';
+import ChangePassword from './components/changePassword';
 
 
 
@@ -48,6 +49,9 @@ function App() {
             <Route path="/chatBox" element={
               <AuthProvider><RequireAuth redirectTo="/"><ChatBox/></RequireAuth></AuthProvider>
             } />
+            <Route path="/changepassword" element={
+            <AuthProvider><RequireAuth redirectTo="/"><ChangePassword/></RequireAuth></AuthProvider>
+            }/>
             <Route render={() => <h1>Not found!</h1>} />
 
           </Routes>
