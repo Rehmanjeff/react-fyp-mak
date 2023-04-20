@@ -8,23 +8,22 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import {useNavigate} from "react-router-dom"
 
-function Otp() {
+function NewOtp() {
 
     const [otp, setOtp] = useState('');
     const [isActive, setIsActive] = useState(false);
-    const [isActiveSucc, setIsActiveSucc] = useState(false);
-    const token = JSON.parse(localStorage.getItem('authTokens'));
+    const [isActiveSucc, setIsActiveSucc] = useState(false);;
     const navigate = useNavigate();
+    const mail = JSON.parse(localStorage.getItem('mails'));
 
 
 
     const VerifyOtp = (event) => {
         setIsActive(false);
         event.preventDefault();
-        
-        axios.post('http://127.0.0.1:8000/accounts/api/verify-otp/', { otp:parseInt(otp) },{ headers: {"Authorization" : `Bearer ${token.access}`} })
+     axios.post(' http://127.0.0.1:8000/accounts/api/confirm-otp/', {email:mail.email, otp:parseInt(otp) })
     .then((response) => {
-        navigate('/home');
+        navigate('/forgetpass');
       })
     .catch((error) => {
         var err = null;
@@ -32,7 +31,7 @@ function Otp() {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             err = error.response.data;
-
+            console.log(err);
             const element = document.getElementById('messageErr');
             for(const k in  err){
                 element.innerHTML += "<p><strong>"+k+":</strong>"+"- "+err[k]+"</p><br>";
@@ -44,18 +43,7 @@ function Otp() {
             element.innerHTML = "";
             }, 3000)
 
-          } else if (error.request) {
-            console.log("request");
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            //console.log(error.request);
-          } else {
-            console.log("else");
-            // Something happened in setting up the request that triggered an Error
-            //console.log('Error', error.message);
           }
-         // console.log(error.config);
 
       });
 
@@ -65,7 +53,7 @@ function Otp() {
     const ResendOtp = (event) => {
         setIsActiveSucc(false);
         event.preventDefault();
-        axios.post('http://127.0.0.1:8000/accounts/api/renew-otp/', {}, { headers: {"Authorization" : `Bearer ${token.access}`} })
+    axios.post('http://127.0.0.1:8000/accounts/api/resend-otp/', {email:mail.email},)
     .then((response) => {
         const element = document.getElementById('messageSuc');
         element.innerHTML += "<p><strong>Token:</strong>"+"- Token has been sent successfully</p><br>";
@@ -95,18 +83,7 @@ function Otp() {
             element.innerHTML = "";
             }, 3000)
 
-          } else if (error.request) {
-            console.log("request");
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            //console.log(error.request);
-          } else {
-            console.log("else");
-            // Something happened in setting up the request that triggered an Error
-            //console.log('Error', error.message);
           }
-         // console.log(error.config);
 
       });
 
@@ -123,7 +100,7 @@ function Otp() {
                 <Alert id='messageSuc' severity="success">
                 </Alert>
             </Stack>
-                
+
                 <div className='d-flex justify-content-center'>
                     <div  className="box box-one" style={{height: "70px", display: "inline", width:"auto"}}>
                         <i className="d-inline p-2 fab fa-twitter"></i>
@@ -162,4 +139,4 @@ function Otp() {
         </div>
     )
 }
-export default Otp;
+export default NewOtp;

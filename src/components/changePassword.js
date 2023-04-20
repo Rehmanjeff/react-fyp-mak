@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import {useNavigate} from "react-router-dom"
 
 export default function ChangePassword() {
   const [pwd, setPwd] = useState({
@@ -23,7 +22,6 @@ export default function ChangePassword() {
   };
   const [isActive, setIsActive] = useState(false);
   const [isActiveSucc, setIsActiveSucc] = useState(false);
-  const navigate = useNavigate();
 
   const ChangePwd = (event) =>{
     event.preventDefault();
@@ -77,11 +75,11 @@ export default function ChangePassword() {
       <div className='text-center border-0' style={{marginTop:"150px"}}>
         <h3>Change Password</h3>
         <Form>
-        <Form.Group className="mb-3" controlId="formGridDOB">
+        <Form.Group className="mb-3" controlId="formGridpassword">
                 <Form.Label style={{display:"flex"}}>Previous Password</Form.Label>
                 <Form.Control type="password" name='old_password'  placeholder="Old Password" onChange={handleChange}/>
         </Form.Group>
-        <Form.Group className="mb-3 " controlId="formGridNumber">
+        <Form.Group className="mb-3 " controlId="formGridpreviouspassword">
                 <Form.Label style={{display:"flex"}}>New Password</Form.Label>
                 <Form.Control type="password" name='new_password' placeholder="New Password" onChange={handleChange} />
         </Form.Group>

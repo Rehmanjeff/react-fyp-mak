@@ -9,6 +9,9 @@ import SignUp from './components/signup';
 import Otp from './components/otp';
 import Home from './components/Home';
 import ChangePassword from './components/changePassword';
+import FindMail from './components/findmail';
+import NewOtp from './components/newotp';
+import ForgetPass from './components/forgetPass';
 
 
 
@@ -33,6 +36,9 @@ function App() {
           <Routes>
             <Route path="/" element={<UserLogin />}/>
             <Route path="/signup" element={<SignUp />}/>
+            <Route path="/findmail" element={<FindMail />}/>
+            <Route path="/newotp" element={<NewOtp />}/>
+            <Route path="/forgetpass" element={<ForgetPass />}/>
             {//<Route path='/otp' element={<Otp/>}/>
             }
             

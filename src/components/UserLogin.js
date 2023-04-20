@@ -48,6 +48,11 @@ export default function UserLogin() {
     newData[name] = value;
     setValues(newData);
   }
+  const page = (e) => {
+
+    e.preventDefault();
+    navigate('/findmail');
+  }
 
     return (
       <div>
@@ -76,7 +81,7 @@ export default function UserLogin() {
               </form>
               {/* <button className="login-btn"onClick={event =>  window.location.href='/home'} >Login</button> */}
               <Button variant="primary"   onClick={login}>Login</Button>
-            <Button variant="primary" >Forget password</Button>
+            <Button variant="primary"  onClick={page}>Forget password</Button>
             </div>
             <p>Don't have an account <a href="/signup">Sign Up</a></p>
           </div>
