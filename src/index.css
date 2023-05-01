@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.btn {
+--bs-btn-border-radius: 17px !important;
+width: 250px;
+}
+.btn-primary {
+  --bs-btn-color: #fff !important;
+  --bs-btn-bg: #50b7f5 !important;
+  --bs-btn-border-color: #50b7f5 !important;
+  --bs-btn-hover-color: #50b7f5 !important;
+  --bs-btn-hover-bg: #fff !important;
+  --bs-btn-hover-border-color: #50b7f5 !important;
+}

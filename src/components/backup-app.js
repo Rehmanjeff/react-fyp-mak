@@ -1,7 +1,5 @@
 import React from 'react';
-import Sidebar from './Sidebar';
-import Feed from './Feed';
-import Widgets from './Widgets';
+
 
 import logo from './google.png'; // Tell Webpack this JS file uses this image
 import loginCSS from './style.css';
@@ -30,7 +28,7 @@ function App() {
 function HomePage() {
   return (
     <div className="app">
-      <Sidebar /> <Feed /> <Widgets /> 
+      
     </div>
   );
 }

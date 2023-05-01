@@ -1,0 +1,52 @@
+.container-fluid{
+    margin-top: 15px;
+    margin-right: -7px;
+}
+.graNDc {
+    background: #fff !important;
+    color: hsl(0, 0%, 0%) !important;
+    border: 1px solid lightgrey !important;
+    margin-top: -23px !important;
+}
+.eslRuw a {
+    color: hsl(0, 0%, 0%) !important;
+}
+.head-div{
+    padding-bottom: 0px !important;
+}
+.app{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px;
+}
+.follower a{
+    color: black;
+    text-decoration: none;
+}
+.following a{
+    color: black;
+    text-decoration: none;
+}
+.follower a:hover{
+    color: #50b7f5;
+    text-decoration: underline;
+    
+}
+.following a:hover{
+    color: #50b7f5;
+    text-decoration: underline;
+    
+}
+.del{
+    --bs-btn-color: #50b7f5 !important;
+    --bs-btn-bg: #fff !important;
+    --bs-btn-border-color: #50b7f5 !important;
+    --bs-btn-hover-color: #fff !important;
+    --bs-btn-hover-bg: #50b7f5 !important;
+    --bs-btn-hover-border-color: #50b7f5 !important;
+}
+a:not([href]):not([class]):hover{
+    color: #50b7f5 !important;
+    text-decoration: underline !important;
+}
