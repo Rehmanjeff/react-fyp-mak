@@ -6,7 +6,6 @@ import  '../index.css';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import {useNavigate} from "react-router-dom"
 
 
@@ -34,10 +33,9 @@ export default function FindMail() {
                     navigate('/newotp');
                     axios.post('http://127.0.0.1:8000/accounts/api/send-otp/',mail)
                     .then((response)=>{
-                        console.log(response);
                     })
                     .catch((error)=>{
-                        console.log(error);
+
                     })
                 }
             })
@@ -47,12 +45,11 @@ export default function FindMail() {
             var err = null;
             if (error.response) {
                 setIsActive(true);
-                console.log(error.response.data);
+                
                 err = error.response.data;
                 const element = document.getElementById('messageErr');
                 for(const k in  err){
                     element.innerHTML += "<p><strong>"+k+":</strong>"+"- "+err[k]+"</p><br>";
-                    console.log(k +':' + err[k]);
                 }
                 setTimeout(() => {
                     setIsActive(false);

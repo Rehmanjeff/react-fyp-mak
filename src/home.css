@@ -30,9 +30,23 @@
 }
 .follower a:hover{
     color: #50b7f5;
+    text-decoration: underline;
     
 }
 .following a:hover{
     color: #50b7f5;
+    text-decoration: underline;
     
+}
+.del{
+    --bs-btn-color: #50b7f5 !important;
+    --bs-btn-bg: #fff !important;
+    --bs-btn-border-color: #50b7f5 !important;
+    --bs-btn-hover-color: #fff !important;
+    --bs-btn-hover-bg: #50b7f5 !important;
+    --bs-btn-hover-border-color: #50b7f5 !important;
+}
+a:not([href]):not([class]):hover{
+    color: #50b7f5 !important;
+    text-decoration: underline !important;
 }

@@ -45,13 +45,13 @@ function Otp() {
             }, 3000)
 
           } else if (error.request) {
-            console.log("request");
+    
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
             // http.ClientRequest in node.js
             //console.log(error.request);
           } else {
-            console.log("else");
+         
             // Something happened in setting up the request that triggered an Error
             //console.log('Error', error.message);
           }
@@ -82,11 +82,11 @@ function Otp() {
             // that falls out of the range of 2xx
             
             err = error.response.data;
-            console.log(err);
+            
             const element = document.getElementById('messageErr');
             for(const k in  err){
                 element.innerHTML += "<p><strong>"+k+":</strong>"+"- "+err[k]+"</p><br>";
-                console.log(k +':' + err[k]);
+               
             }
 
             setIsActive(true);
@@ -96,13 +96,13 @@ function Otp() {
             }, 3000)
 
           } else if (error.request) {
-            console.log("request");
+           
             // The request was made but no response was received
             // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
             // http.ClientRequest in node.js
             //console.log(error.request);
           } else {
-            console.log("else");
+         
             // Something happened in setting up the request that triggered an Error
             //console.log('Error', error.message);
           }

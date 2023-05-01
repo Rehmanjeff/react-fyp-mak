@@ -23,7 +23,7 @@ export const AuthProvider = ({children}) => {
         setAuthTokens = null;
         setUser = null;
         localStorage.removeItem('authTokens');
-        history.push = '/login';
+        history('/');
     }
 
 
@@ -34,7 +34,7 @@ export const AuthProvider = ({children}) => {
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({'refresh':authTokens?.refresh})
+            body:JSON.stringify({'refresh':authTokens.refresh})
         })
 
         let data = await response.json()

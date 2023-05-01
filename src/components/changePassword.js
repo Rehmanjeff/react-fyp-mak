@@ -28,7 +28,6 @@ export default function ChangePassword() {
     setIsActive(false);
     axios.put('http://127.0.0.1:8000/accounts/api/change-password/', pwd ,{ headers: {"Authorization" : `Bearer ${token.access}`} })
     .then((response) => {
-        console.log(response.data);
         const element = document.getElementById('messageSuc');
         element.innerHTML += "<p><strong>Password:</strong>"+"- Password has been Changed successfully</p><br>";
         setIsActiveSucc(true);
@@ -63,7 +62,7 @@ export default function ChangePassword() {
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
     <SideBar/>
-    <div className='container-fluid' style={{width:"350px", padding:"38px", marginTop:"1px" }}>
+    
     <Stack sx={{marginTop:"0px", width: '100%', display: isActive ?"":"none"}} spacing={2}>
                 <Alert id='messageErr' severity="error">
                 </Alert>
@@ -72,7 +71,9 @@ export default function ChangePassword() {
         <Alert id='messageSuc' severity="success">
         </Alert>
     </Stack>
-      <div className='text-center border-0' style={{marginTop:"150px"}}>
+    <div className='card'  style={{width:"600px" ,marginTop: '0px', marginLeft:'-1px', padding:"20px", height:"765px", paddingTop:'45px'}}>
+    <div className='border-0 ' style={{marginTop:"0px"}}> 
+      
         <h3>Change Password</h3>
         <Form>
         <Form.Group className="mb-3" controlId="formGridpassword">
@@ -90,7 +91,9 @@ export default function ChangePassword() {
 
       </div>
     </div>
-
     </div>
+    
+
+    
   )
 }

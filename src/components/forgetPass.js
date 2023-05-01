@@ -23,15 +23,13 @@ export default function ForgetPass() {
         event.preventDefault();
         axios.put('http://127.0.0.1:8000/accounts/api/forget-password/',{email:mail.email,new_password: pwd})
     .then((response) => {
-        console.log(mail);
         localStorage.removeItem('mails');
         navigate('/');
       })
     .catch((error) => {
         var err = null;
         if (error.response) {
-            
-            
+
             err = error.response.data;
             const element = document.getElementById('messageErr');
             for(const k in  err){

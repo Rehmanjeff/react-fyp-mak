@@ -23,7 +23,6 @@ export default function UserLogin() {
       axios.post('http://127.0.0.1:8000/accounts/api/token/', values)
       .then((response) => {
         localStorage.setItem('authTokens', JSON.stringify(response.data));
-        localStorage.setItem('authdata', JSON.stringify(response.data));
 
         if (response.data.is_verified === true){
           navigate("/home");

@@ -31,7 +31,6 @@ function NewOtp() {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             err = error.response.data;
-            console.log(err);
             const element = document.getElementById('messageErr');
             for(const k in  err){
                 element.innerHTML += "<p><strong>"+k+":</strong>"+"- "+err[k]+"</p><br>";
@@ -70,11 +69,11 @@ function NewOtp() {
             // that falls out of the range of 2xx
             
             err = error.response.data;
-            console.log(err);
+    
             const element = document.getElementById('messageErr');
             for(const k in  err){
                 element.innerHTML += "<p><strong>"+k+":</strong>"+"- "+err[k]+"</p><br>";
-                console.log(k +':' + err[k]);
+            
             }
 
             setIsActive(true);

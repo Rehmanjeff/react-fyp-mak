@@ -12,22 +12,26 @@ import ChangePassword from './components/changePassword';
 import FindMail from './components/findmail';
 import NewOtp from './components/newotp';
 import ForgetPass from './components/forgetPass';
-
+import Settings from './components/settings';
+import Following from './components/following';
+import Follower from './components/follower';
+import Request_List from './components/request_list';
+import Tweet from './components/tweet';
 
 
 function App() {
 
   function RequireAuth({ children, redirectTo }) {
     const {user} = useContext(AuthContext);
-    console.log(user);
 
     if (!user) {
-      return null; // or loading indicator, etc...
+      return <Navigate to='/' replace />; // or loading indicator, etc...
     }
+    else{
 
     return user
       ? children
-      : <Navigate to={redirectTo} replace />;
+      : <Navigate to={redirectTo} replace />;}
   }
     return (
       // BEM
@@ -39,10 +43,11 @@ function App() {
             <Route path="/findmail" element={<FindMail />}/>
             <Route path="/newotp" element={<NewOtp />}/>
             <Route path="/forgetpass" element={<ForgetPass />}/>
-            {//<Route path='/otp' element={<Otp/>}/>
-            }
-            
-            <Route path="/home" element={<AuthProvider><RequireAuth redirectTo="/"><Home/></RequireAuth></AuthProvider>}/>
+
+
+            <Route path="/home" element={
+            <AuthProvider><RequireAuth redirectTo="/"><Home/></RequireAuth></AuthProvider>
+            }/>
 
             <Route path="/otp" element=
             {<AuthProvider><RequireAuth redirectTo="/"><Otp/></RequireAuth></AuthProvider>}
@@ -53,10 +58,25 @@ function App() {
               } />
 
             <Route path="/chatBox" element={
-              <AuthProvider><RequireAuth redirectTo="/"><ChatBox/></RequireAuth></AuthProvider>
+              <ChatBox/>
             } />
             <Route path="/changepassword" element={
             <AuthProvider><RequireAuth redirectTo="/"><ChangePassword/></RequireAuth></AuthProvider>
+            }/>
+            <Route path="/settings" element={
+            <AuthProvider><RequireAuth redirectTo="/"><Settings/></RequireAuth></AuthProvider>
+            }/>
+            <Route path="/following" element={
+            <AuthProvider><RequireAuth redirectTo="/"><Following/></RequireAuth></AuthProvider>
+            }/>
+            <Route path="/follower" element={
+            <AuthProvider><RequireAuth redirectTo="/"><Follower/></RequireAuth></AuthProvider>
+            }/>
+            <Route path="/request" element={
+              <AuthProvider><RequireAuth redirectTo="/"><Request_List/></RequireAuth></AuthProvider>
+            }/>
+            <Route path="/updatetweet" element={
+              <AuthProvider><RequireAuth redirectTo="/"><Tweet/></RequireAuth></AuthProvider>
             }/>
             <Route render={() => <h1>Not found!</h1>} />
 

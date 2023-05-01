@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -13,19 +13,29 @@ import '../App.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function SideBar() {
     const navigate = useNavigate();
+    const token = JSON.parse(localStorage.getItem('authTokens'));
     const logout = (event) => {
         event.preventDefault();
-        const token = JSON.parse(localStorage.getItem('authTokens'));
         axios.post('http://127.0.0.1:8000/accounts/api/logout/', { refresh: token.refresh },{ headers: {"Authorization" : `Bearer ${token.access}`} })
         .then((response) => {
             localStorage.removeItem('authTokens');
-            localStorage.removeItem('authdata');
             navigate('/');
           })
     }
+    const [listLength, setlistLength] = useState(null);
+    
+    const fetchList = () =>{
+        axios.get('http://127.0.0.1:8000/accounts/api/request-list/' ,{ headers: {"Authorization" : `Bearer ${token.access}`} })
+        .then((response)=>{
+            setlistLength(Object.keys(response.data).length);
+
+        })}
+        useEffect(() => {
+            fetchList();
+    
+        },[])
   return (
     <div>
       <div className='d-inline p-2' style={{marginRight:"-17px"}}>
@@ -41,19 +51,25 @@ export default function SideBar() {
 
             <CDBSidebarContent className="sidebar-content">
                 <CDBSidebarMenu>
-                <NavLink exact to="/home" activeclassname="activeClicked">
+                <NavLink exact="true" to="/home" activeclassname="activeClicked">
                     <CDBSidebarMenuItem fas icon="columns">Home</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/profile" activeclassname="activeClicked">
+                <NavLink exact="true"  to="/profile" activeclassname="activeClicked">
                     <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/chatBox" activeclassname="activeClicked">
+                <NavLink exact="true" to="/request" activeclassname ="activeClicked">
+                    <CDBSidebarMenuItem fas icon="user-friends">Friend Requests <span style={{background:"red", color:"#fff", padding:"10px"}}>{listLength}</span></CDBSidebarMenuItem>
+                </NavLink>
+                <NavLink exact="true" to="#" activeclassname ="activeClicked">
+                    <CDBSidebarMenuItem fas icon="search">Search User</CDBSidebarMenuItem>
+                </NavLink>
+                <NavLink exact="true" to="/chatBox" activeclassname="activeClicked">
                     <CDBSidebarMenuItem fas icon="comment-alt">Chat</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="#" activeclassname="activeClicked">
-                    <CDBSidebarMenuItem fa icon="gear">Account Settings</CDBSidebarMenuItem>
+                <NavLink exact="true" to="/settings" activeclassname="activeClicked">
+                    <CDBSidebarMenuItem fa icon="cog">Account Settings</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/changepassword" activeclassname ="activeClicked">
+                <NavLink exact="true" to="/changepassword" activeclassname ="activeClicked">
                     <CDBSidebarMenuItem fas icon="key">Change Password</CDBSidebarMenuItem>
                 </NavLink>
 
