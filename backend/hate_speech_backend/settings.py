@@ -115,8 +115,8 @@ DATABASES = {
     'ENGINE': 'django.db.backends.mysql',
     'NAME': 'cyber',
     'USER': 'root',
-    'PASSWORD': 'root',
-    'HOST': 'localhost',
+    'PASSWORD': '',
+    'HOST': '127.0.0.1',
     # Or an IP Address that your DB is hosted on
     'PORT': '3306',
   }
@@ -172,7 +172,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #    "https://example.com",
 #]
 CORS_ORIGIN_WHITELIST = (
-        'http://localhost:3000',
+        'http://localhost:5173',
     )
 #EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'

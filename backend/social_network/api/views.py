@@ -33,8 +33,7 @@ class UserTweetViewset(viewsets.ModelViewSet):
         queryset = self.queryset
         query_set = queryset.filter(user=self.request.user)
         return query_set
-
-
+    
 class TweetView(generics.ListAPIView):
 
     permission_classes = [IsVerifiedUser]#in future will see according to public and private account
@@ -234,3 +233,35 @@ class ShareTweetView(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+class TweetSearch(generics.ListAPIView):
+
+    permission_classes = [IsVerifiedUser]
+
+    def get(self,request, search):
+        
+        try:
+            
+            tweets = Tweet.objects.filter(text__icontains=search)
+            data = []
+            for tweet in tweets:
+                serializer = TweetDetailSerializer(tweet)
+                data.append(serializer.data)
+
+        except Tweet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data, status = status.HTTP_200_OK)
+    
+class UserTweetLikes(generics.ListAPIView):
+
+    permission_classes = [IsVerifiedUser]
+
+    def get(self,request):
+        
+        likes = Like.objects.filter(user = self.request.user, like = True)
+        data = []
+        for like in likes:
+            data.append(like.tweet.id)
+
+        return Response(data, status = status.HTTP_200_OK)
