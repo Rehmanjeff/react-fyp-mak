@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col mx-5 my-3">
+  <div class="flex flex-col mx-5 my-3 border-r border-theme-gray-border h-full">
     <div class="mb-4 pl-4 mt-1 w-11">
       <img src="/assets/images/logo.png" />
     </div>
