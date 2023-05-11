@@ -1,54 +1,63 @@
 <!-- Login form component -->
 <template>
-    
-    <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-        <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div class="w-full max-w-md overflow-hidden bg-white rounded-lg shadow-lg">
         <div class="p-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Log In</h2>
-            <div>
-                <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
-                <input id="email" type="email" v-model="email" class="w-full border border-grey-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+          <div class="flex items-center justify-center mb-8">
+            <img src="/assets/images/logo.png" class="w-8 h-6" alt="" />
+          </div>
+          <h2 class="mb-4 text-2xl font-bold text-gray-800">Log In</h2>
+          <div>
+            <input id="email" type="email" v-model="email" placeholder="Email" class="w-full px-4 py-2 border rounded border-grey-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
+          </div>
+          <div class="mt-5">
+            <input id="password" type="password" placeholder="Password" v-model="password" class="w-full px-4 py-2 border rounded border-grey-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
+          </div>
+          <div class="mt-10">
+            <button type="button" @click="proceedLogin" class="w-full px-4 py-2 mb-4 text-sm font-semibold text-white transition-colors duration-200 bg-blue-500 border rounded-3xl hover:bg-blue-600">
+              Log In
+            </button>
+            <RouterLink :to="{ name: 'CreateAccount' }">
+              <button type="button" class="w-full px-4 py-2 text-sm font-semibold text-blue-500 transition-colors duration-200 bg-white border border-blue-500 rounded-3xl">
+                Create an account
+              </button>
+            </RouterLink>
+            <div class="flex ml-2">
+              <RouterLink :to="{ name: 'ForgetPassword' }">
+                <p class="mt-2 text-xs text-blue-500 cursor-pointer hover:underline">
+                  Forget password ?
+                </p>
+              </RouterLink>
             </div>
-            <div class="mt-5">
-                <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
-                <input id="password" type="password" v-model="password" class="w-full border border-grey-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-            </div>
-            <div class="mt-10">
-                <button type="button" @click="proceedLogin" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-200">Log In</button>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-
-</template>
+  </template>
   
-<script setup>
-import { ref } from 'vue'
-import Auth from '@/composables/Auth.js'
-
-const emit = defineEmits(['response'])
-
-const email = ref('')
-const password = ref('')
-const { login } = Auth()
-
-const proceedLogin = () => {
-
-    if(email != '' && password != ''){
-
-        login(email.value, password.value).then((data) => {
-
-            const response = JSON.parse(JSON.stringify(data))
-
-            if(response.is_verified === true){
-
-                localStorage.setItem('dynoAuthToken', response.access)
-                localStorage.setItem('dynoAuthRefreshToken', response.refresh)
-
-                emit('response')
-            }
-        })
+  <script setup>
+  import { ref } from "vue"
+  import Auth from "@/composables/Auth.js"
+  
+  const emit = defineEmits(["response"])
+  
+  const email = ref("")
+  const password = ref("")
+  const { login } = Auth()
+  
+  const proceedLogin = () => {
+    if (email != "" && password != "") {
+      login(email.value, password.value).then((data) => {
+        const response = JSON.parse(JSON.stringify(data))
+  
+        if (response.is_verified === true) {
+          localStorage.setItem("dynoAuthToken", response.access);
+          localStorage.setItem("dynoAuthRefreshToken", response.refresh);
+  
+          emit("response")
+        }
+      });
     }
-}
-
-</script>
+  };
+  </script>
+  

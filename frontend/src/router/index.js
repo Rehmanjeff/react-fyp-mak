@@ -1,6 +1,9 @@
-import { createWebHistory, createRouter } from "vue-router";
-import Home from "@/views/pages/Home.vue";
-import About from "@/views/pages/About.vue";
+import { createWebHistory, createRouter } from "vue-router"
+import Home from "@/views/pages/Home.vue"
+import CreateAccount from "@/views/pages/CreateAccount.vue"
+import ForgetPassword from "@/views/pages/ForgetPassword.vue"
+import Profile from "@/views/pages/Profile.vue"
+import Messages from "@/views/pages/Messages.vue"
 
 const routes = [
   {
@@ -9,9 +12,24 @@ const routes = [
     component: Home,
   },
   {
-    path: "/about",
-    name: "About",
-    component: About,
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+  },
+  {
+    path: "/messages",
+    name: "Messages",
+    component: Messages,
+  },
+  {
+    path: "/create-account",
+    name: "CreateAccount",
+    component: CreateAccount,
+  },
+  {
+    path: "/forget-password",
+    name: "ForgetPassword",
+    component: ForgetPassword,
   },
 ];
 

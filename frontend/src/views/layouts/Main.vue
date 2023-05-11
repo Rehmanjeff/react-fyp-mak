@@ -1,16 +1,16 @@
 <template>
     <div class="flex flex-row items-start min-h-screen">
-        <div class="w-1/4"></div>
-        <div class="sidebar">
+        <div class="w-1/6"></div>
+        <div class="sidebar w-1/6">
             <slot name="leftbar"></slot>
         </div>
-        <div id="main_content" class="h-full w-full overflow-auto">
+        <div id="main_content" class="h-full w-full overflow-auto flex-1">
             <slot />
         </div>
-        <div class="trends-bar">
+        <div class="trends-bar w-1/6">
             <slot name="rightbar"></slot>
         </div>
-        <div class="w-1/4"></div>
+        <div class="w-1/6"></div>
     </div>
 </template>
 
