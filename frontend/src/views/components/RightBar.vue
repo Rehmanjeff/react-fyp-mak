@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full">
-    this is right bar
+    Trends bar goes here
   </div> 
 </template>
 
