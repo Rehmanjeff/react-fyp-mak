@@ -4,6 +4,8 @@ import CreateAccount from "@/views/pages/CreateAccount.vue"
 import ForgetPassword from "@/views/pages/ForgetPassword.vue"
 import Profile from "@/views/pages/Profile.vue"
 import Messages from "@/views/pages/Messages.vue"
+import Follower from "@/views/pages/Follower.vue"
+import Following from "@/views/pages/Following.vue"
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: "/forget-password",
     name: "ForgetPassword",
     component: ForgetPassword,
+  },
+  {
+    path: "/profile/followers",
+    name: "Follower",
+    component: Follower,
+  },
+  {
+    path: "/profile/following",
+    name: "Following",
+    component: Following,
   },
 ];
 

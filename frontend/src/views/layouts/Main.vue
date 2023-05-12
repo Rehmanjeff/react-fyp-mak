@@ -42,7 +42,9 @@
 // pages that have symmetric layouts (right and left bars with same width and main content on the center)
 const symetricLayout = [
     'Home',
-    'Profile'
+    'Profile',
+    'Follower',
+    'Following'
 ]
 
 </script>

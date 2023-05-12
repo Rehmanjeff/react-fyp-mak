@@ -37,12 +37,16 @@
     </div>
     <div class="flex flex-row w-full mt-2">
       <div class="flex w-1/4 gap-2 mt-4 text-xs text-gray-500">
-        <span class="font-bold text-black">12</span>
-        <span>Following</span>
+        <RouterLink :to="{ name: 'Following' }">
+          <span class="mr-1 font-bold text-black">12</span>
+          <span>Following</span>
+        </RouterLink>
       </div>
       <div class="flex w-1/4 gap-2 mt-4 text-xs text-gray-500">
-        <span class="font-bold text-black">2</span>
-        <span>Followers</span>
+        <RouterLink :to="{ name: 'Follower' }">
+          <span class="mr-1 font-bold text-black">2</span>
+          <span>Followers</span>
+        </RouterLink>
       </div>
     </div>
     <div class="flex flex-row w-full gap-2 mt-8 text-xs cursor-pointer">
