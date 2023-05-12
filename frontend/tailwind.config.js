@@ -12,10 +12,11 @@ export default {
         'theme-blue-darker': '#1a8bd8'
       },
       width: {
-        '1/10': '10%',
-        '1/7': '14.2%',
-        '4/7': '57.1%',
+        '1/10': '10%'
       },
+      height: {
+        'max-500p' : '500px'
+      }
     },
   },
   plugins: [],
