@@ -1,32 +1,24 @@
 <template>
-  <div class="flex flex-row w-full gap-5 mb-4 text-sm text-gray-500">
-    <div class="w-1/2" @click="tabChange('follower')">
-      <RouterLink :to="{ name: 'Follower' }">
-        <div
-          @click="activeTab = 'follower'"
-          :class="[
-            activeTab == 'follower'
-              ? 'border-b-2 border-theme-blue text-center'
-              : 'hover:border-b-2 hover:border-theme-blue text-center',
-          ]"
-        >
-          Followers
-        </div>
-      </RouterLink>
+  <div class="flex flex-row w-full mb-4 text-md text-gray-500 border-b border-theme-gray-border">
+    <div class="w-1/2 cursor-pointer hover:bg-theme-gray pt-2">
+      <div class="flex flex-col w-fit mx-auto gap-2">
+        <RouterLink :to="{ name: 'Follower' }">
+          <div class="font-semibold" :class="activeTab == 'follower' ? 'text-black' : 'text-theme-gray-dark'">
+            Follower
+          </div>
+        </RouterLink>
+        <div v-if="activeTab == 'follower'" class="bg-theme-blue h-1"></div>
+      </div>
     </div>
-    <div class="w-1/2 cursor-pointer" @click="tabChange('following')">
-      <RouterLink :to="{ name: 'Following' }">
-        <div
-          @click="activeTab = 'following'"
-          :class="[
-            activeTab == 'following'
-              ? 'border-b-2 border-theme-blue text-center'
-              : 'hover:border-b-2 hover:border-theme-blue text-center',
-          ]"
-        >
-          Following
-        </div>
-      </RouterLink>
+    <div class="w-1/2 cursor-pointer hover:bg-theme-gray pt-2">
+      <div class="flex flex-col w-fit mx-auto gap-2">
+        <RouterLink :to="{ name: 'Following' }">
+          <div class="font-semibold" :class="activeTab == 'following' ? 'text-black' : 'text-theme-gray-dark'">
+            Following
+          </div>
+        </RouterLink>
+        <div v-if="activeTab == 'following'" class="bg-theme-blue h-1"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,8 +40,4 @@ onMounted(() => {
   }
 })
 
-function tabChange(value) {
-  activeTab.value = value
-  console.log(activeTab.value)
-}
 </script>

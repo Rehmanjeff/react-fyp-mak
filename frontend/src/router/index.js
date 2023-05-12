@@ -12,16 +12,25 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      displayName: "Home"
+    }
   },
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
+    meta: {
+      displayName: "User Profile"
+    }
   },
   {
     path: "/messages",
     name: "Messages",
     component: Messages,
+    meta: {
+      displayName: "Messages"
+    }
   },
   {
     path: "/create-account",

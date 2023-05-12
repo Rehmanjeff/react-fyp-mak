@@ -1,56 +1,45 @@
 <template>
   <div>
-    <div class="flex flex-row items-center">
-      <img src="/assets/images/arrow.png" class="w-4 h-4" alt="" />
-      <div class="flex flex-col ml-4">
-        <span class="text-lg font-semibold">User</span>
-        <span class="-mt-1 text-xs text-gray-500">0 Tweets</span>
-      </div>
-    </div>
     <div class="flex justify-center p-16 text-center bg-gray-300">
       <span class="">cover</span>
     </div>
     <div class="flex w-full pl-2">
-      <div
-        class="w-24 h-24 overflow-hidden p-4 rounded-full mt-[-40px] border-4 border-white bg-gray-300"
-      >
-        <img
-          src="/assets/images/roundprofile.png"
-          class="w-auto h-auto mt-1"
-          alt=""
-        />
+      <div class="w-24 h-24 overflow-hidden p-4 rounded-full mt-[-40px] border-4 border-white bg-gray-300">
+        <img src="/assets/images/roundprofile.png" class="w-auto h-auto mt-1" alt="" />
       </div>
     </div>
-    <div class="flex flex-col">
-      <span class="font-bold">User</span>
-      <span class="-mt-1 text-sm text-gray-500">@username</span>
+    <div class="flex flex-col pl-3">
+      <div class="flex flex-col">
+        <span class="font-semibold">User</span>
+        <span class="text-sm text-theme-gray-dark -mt-1 text-sm text-gray-500">@username</span>
+      </div>
+      <div class="flex flex-row w-full mt-2 text-md">
+        <div class="flex w-1/2 items-center">
+          <img src="/assets/images/date.png" class="h-fit mr-2" alt="" />
+          <span class="text-gray-500">Born December 2, 2004</span>
+        </div>
+        <div class="flex w-1/2 items-center">
+          <img src="/assets/images/calendar.png" class="h-fit mr-2" alt="" />
+          <span class="text-gray-500">Join August, 2019</span>
+        </div>
+      </div>
+      <div class="flex flex-row w-full mt-2 text-sm">
+        <div class="flex w-1/4 gap-2 mt-4 text-gray-500">
+          <RouterLink :to="{ name: 'Following' }">
+            <span class="mr-1 font-bold text-black">12</span>
+            <span>Following</span>
+          </RouterLink>
+        </div>
+        <div class="flex w-1/4 gap-2 mt-4 text-gray-500">
+          <RouterLink :to="{ name: 'Follower' }">
+            <span class="mr-1 font-bold text-black">2</span>
+            <span>Followers</span>
+          </RouterLink>
+        </div>
+      </div>
     </div>
-    <div class="flex flex-row w-full mt-2 text-sm">
-      <div class="flex w-1/2">
-        <img src="/assets/images/date.png" class="w-4 h-5 mr-2" alt="" />
-        <span class="text-gray-500">Born December 2, 2004</span>
-      </div>
-      <div class="flex w-1/2">
-        <img src="/assets/images/calender.png" class="w-4 h-5 mr-2" alt="" />
-        <span class="text-gray-500">Join August, 2019</span>
-      </div>
-    </div>
-    <div class="flex flex-row w-full mt-2">
-      <div class="flex w-1/4 gap-2 mt-4 text-xs text-gray-500">
-        <RouterLink :to="{ name: 'Following' }">
-          <span class="mr-1 font-bold text-black">12</span>
-          <span>Following</span>
-        </RouterLink>
-      </div>
-      <div class="flex w-1/4 gap-2 mt-4 text-xs text-gray-500">
-        <RouterLink :to="{ name: 'Follower' }">
-          <span class="mr-1 font-bold text-black">2</span>
-          <span>Followers</span>
-        </RouterLink>
-      </div>
-    </div>
-    <div class="flex flex-row w-full gap-2 mt-8 text-xs cursor-pointer">
-      <div @click="tabChange('tweets')" class="w-1/4 text-center">
+    <div class="flex flex-row justify-around w-full gap-2 mt-8 text-sm cursor-pointer text-sm">
+      <div @click="tabChange('tweets')" class="text-center">
         <div
           @click="activeTab = 'tweets'"
           :class="[
@@ -63,7 +52,7 @@
         </div>
       </div>
 
-      <div @click="tabChange('tweets&replies')" class="w-1/4 text-center">
+      <div @click="tabChange('tweets&replies')" class="text-center">
         <div
           @click="activeTab = 'tweets&replies'"
           :class="[
@@ -76,7 +65,7 @@
         </div>
       </div>
 
-      <div @click="tabChange('media')" class="w-1/4 text-center">
+      <div @click="tabChange('media')" class="text-center">
         <div
           @click="activeTab = 'media'"
           :class="[
@@ -89,7 +78,7 @@
         </div>
       </div>
 
-      <div @click="tabChange('likes')" class="w-1/4 text-center">
+      <div @click="tabChange('likes')" class="text-center">
         <div
           @click="activeTab = 'likes'"
           :class="[

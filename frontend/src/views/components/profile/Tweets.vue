@@ -1,9 +1,11 @@
 <template>
     <div>
-        <h3>This is Tweets Page</h3>
+        <Tweet />
+        <Tweet />
     </div>
 </template>
 
 <script setup>
+import Tweet from "@/views/components/Tweet.vue"
 
 </script>
