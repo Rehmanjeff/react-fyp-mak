@@ -3,7 +3,7 @@
   <Main v-if="isLoggedIn">
     <!-- Left Bar -->
     <template v-slot:leftbar>
-      <LeftBar />
+      <LeftBar @logout="checkLogin" />
     </template>
 
     <!-- Route dynamic content -->
@@ -30,13 +30,53 @@ import RightBar from "@/views/components/RightBar.vue"
 import LeftBar from "@/views/components/LeftBar.vue"
 import CreateAccount from "@/views/pages/CreateAccount.vue"
 import ForgetPassword from "@/views/pages/ForgetPassword.vue"
-import { ref } from "vue"
+import { ref, watch, onMounted } from "vue"
 
-const token = localStorage.getItem('dynoAuthToken')
-const isLoggedIn = ref(token !== null && token != '' ? true : false)
+const token = ref(localStorage.getItem('dynoAuthToken'))
+const refreshToken = ref(localStorage.getItem('dynoAuthRefreshToken'))
+const isLoggedIn = ref(token.value !== null && token.value != '' ? true : false)
 
 const checkLogin = () => {
-
+  
   isLoggedIn.value = localStorage.getItem('dynoAuthToken')
 }
+
+async function updateToken () {
+ 
+  if(isLoggedIn){
+
+    let response = await fetch('http://127.0.0.1:8000/accounts/api/token/refresh/', {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({'refresh':refreshToken.value})
+    })
+
+    let data = await response.json()
+    
+    if (response.status === 200){
+        
+      token.value = data.access
+      refreshToken.value = data.refresh
+    }else{
+        
+      token.value = false
+      refreshToken.value = false
+      localStorage.removeItem("dynoAuthToken")
+      localStorage.removeItem("dynoAuthRefreshToken")
+    }
+  }
+}
+
+onMounted(() => {
+
+  const fourMinutes = 60 * 4 * 1000
+  const interval = setInterval(() => {
+    
+    updateToken()
+  }, fourMinutes)
+
+})
+
 </script>

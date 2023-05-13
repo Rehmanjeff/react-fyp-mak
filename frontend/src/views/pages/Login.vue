@@ -29,6 +29,9 @@
                 </p>
               </RouterLink>
             </div>
+            <div v-if="error" class="flex ml-2">
+              <div class="text-sm text-theme-red mt-5 font-semibold">{{ error }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -40,21 +43,31 @@
   import Auth from "@/composables/Auth.js"
   
   const emit = defineEmits(["response"])
+  const error = ref(false)
   
   const email = ref("")
   const password = ref("")
   const { login } = Auth()
   
   const proceedLogin = () => {
-    if (email != "" && password != "") {
+    if (email.value != "" && password.value != "") {
       login(email.value, password.value).then((data) => {
+
         const response = JSON.parse(JSON.stringify(data))
-  
-        if (response.is_verified === true) {
+
+        if(response.message){
+
+          error.value = response.message
+          emit("response", response.message)
+        }else if(response.access && response.refresh && response.access){
+
           localStorage.setItem("dynoAuthToken", response.access);
           localStorage.setItem("dynoAuthRefreshToken", response.refresh);
   
           emit("response")
+        }else{
+
+          console.log(response)
         }
       });
     }
