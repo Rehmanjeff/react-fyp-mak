@@ -22,7 +22,7 @@
     { id: 1, name: "Home", icon: "home.png", active_icon: "home-active.png", link: "Home", is_active: true },
     { id: 2, name: "Messages", icon: "messages.png" , active_icon: "messages-active.png", link: "Messages", is_active: false },
     { id: 3, name: "Profile", icon: "profile.png" , active_icon: "profile-active.png", link: "Profile", is_active: false },
-    { id: 4, name: "More", icon: "more.png", active_icon: false, link: false, is_active: false },
+    { id: 4, name: "Settings", icon: "settings.png", active_icon: false, link: "Settings", is_active: false },
   ];
 
 </script>

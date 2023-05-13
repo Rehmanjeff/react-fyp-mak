@@ -6,6 +6,7 @@ import Profile from "@/views/pages/Profile.vue"
 import Messages from "@/views/pages/Messages.vue"
 import Follower from "@/views/pages/Follower.vue"
 import Following from "@/views/pages/Following.vue"
+import Settings from "@/views/pages/Settings.vue"
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     path: "/profile/following",
     name: "Following",
     component: Following,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
   },
 ];
 
