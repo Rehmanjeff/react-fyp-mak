@@ -12,14 +12,7 @@
                             <h1 class="font-semibold text-xl mb-5 px-3 mt-1">{{ $route.meta.displayName }}</h1>
                         </div>
                         <div class="pl-4 w-2/6">
-                            <div class="flex flex-row items-center bg-theme-gray-light py-3 px-4 rounded-full">
-                                <div class="mr-5">
-                                    <img src="/assets/images/search.png" alt="" />
-                                </div>
-                                <div class="">
-                                    <input class="bg-theme-gray-light outline-none" type="text" placeholder="Search tweets" />
-                                </div>
-                            </div>
+                            <Search />
                         </div>
                     </div>
                 </div>
@@ -38,7 +31,8 @@
 </template>
 
 <script setup>
-
+import Search from '@/views/components/Search.vue'
+import { ref } from 'vue'
 // pages that have symmetric layouts (right and left bars with same width and main content on the center)
 const symetricLayout = [
     'Home',
