@@ -37,16 +37,38 @@ const Auth = () => {
 
     const logout = async (token, tokenRefresh) => {
 
-        await axios.post('http://127.0.0.1:8000/accounts/api/logout/', { refresh: tokenRefresh },{ headers: {"Authorization" : `Bearer ${token}`} }).then((response) => {
-    
-            localStorage.removeItem('dynoAuthRefreshToken')
-            localStorage.removeItem('dynoAuthToken')
-        });
+        try {
+
+            let response = await axios.post('http://127.0.0.1:8000/accounts/api/logout/', { refresh: tokenRefresh },{ headers: {"Authorization" : `Bearer ${token}`} });
+            if(response.status == 200){
+
+                localStorage.removeItem('dynoAuthRefreshToken')
+                localStorage.removeItem('dynoAuthToken')
+            }
+
+            return response;
+        } catch (err) {
+
+            return err.response;
+        }
+    };
+
+    const signup = async (data) => {
+
+        try {
+
+            let response = await axios.post('http://127.0.0.1:8000/accounts/api/register/', { username: data.username, email: data.email, first_name: data.firstName, last_name: data.lastName, date_of_birth: data.dob, phone_number: data.phoneNumber, password: data.password, password2: data.password2 });
+            return response;
+        } catch (err) {
+
+            return err.response;
+        }
     };
 
     return {
         login,
-        logout
+        logout,
+        signup
     }
 };
 

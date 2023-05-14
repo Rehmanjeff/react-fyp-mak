@@ -10,7 +10,8 @@ export default {
         'theme-gray-border': '#eff3f4',
         'theme-blue': '#1d9bf0',
         'theme-blue-darker': '#1a8bd8',
-        'theme-red': '#fc064c'
+        'theme-red': '#fc064c',
+        'theme-green': '#28a745'
       },
       width: {
         '1/10': '10%'

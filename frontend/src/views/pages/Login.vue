@@ -69,8 +69,8 @@
 
           console.log(response)
         }
-      });
+      })
     }
-  };
+  }
   </script>
   
