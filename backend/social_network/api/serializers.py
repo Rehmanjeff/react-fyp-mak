@@ -5,10 +5,21 @@ import CyberbullyingDetectionClass as model
 
 class UserSerializer(serializers.ModelSerializer):
 
+    """ returns count of users that this user follows """
+    following_count = serializers.SerializerMethodField()
+
+    """ returns count of users that are following this user """
+    followers_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'following_count', 'followers_count']
+
+    def get_following_count(self, obj):
+        return obj.follows.count()
+
+    def get_followers_count(self, obj):
+        return obj.followed_by.count()
 
 
 class ReplySerializer(serializers.ModelSerializer):

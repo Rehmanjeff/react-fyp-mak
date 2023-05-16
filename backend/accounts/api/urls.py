@@ -16,7 +16,8 @@ from .views import (
     ResendOtp,
     ForgetPasswordView,
     SendOtp,
-    RemoveFollower
+    RemoveFollower,
+    UpdateUser
 )
 
 urlpatterns = [
@@ -39,4 +40,5 @@ urlpatterns = [
     path('forget-password/', ForgetPasswordView.as_view()),
     path('logout/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('remove-follower/<int:pk>/', RemoveFollower.as_view(), name = 'remove-follower'),
+    path('user/update/', UpdateUser, name='update_user'),
 ]

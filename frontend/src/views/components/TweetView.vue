@@ -10,7 +10,7 @@
                 <div>
                     <img src="/assets/images/handle.png" alt="" />
                 </div>
-                <div class="text-sm text-theme-gray-dark">{{ tweet.user.username }}</div>
+                <div class="text-sm text-theme-gray-dark">@{{ tweet.user.username }}</div>
                 <div class="text-sm text-theme-gray-dark">. {{ tweet.updated_at }}</div>
             </div>
             <div class="text-sm font-normal">
@@ -43,12 +43,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { HeartIcon } from '@heroicons/vue/solid'
 
 const props = defineProps(['tweet', 'page'])
 const emit = defineEmits(['likeClicked'])
 const username = localStorage.getItem('username')
+
+const [year, month, day] = props.tweet.updated_at.split('-')
+const [realDay, time] = day.split('T')
+props.tweet.updated_at = realDay+' - '+month+' - '+year
+
 const toggleLiked = (id, status) => {
 
     emit('likeClicked', id, status)

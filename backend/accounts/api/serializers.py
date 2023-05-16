@@ -70,7 +70,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name','last_name', 'bio', 'is_private']
+        fields = ['first_name','last_name', 'bio', 'is_private', 'phone_number']
 
 
     def update(self, instance, validated_data):
@@ -148,7 +148,7 @@ class FollowersAndFollowingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'bio', 'first_name', 'last_name', 'following', 'followers', 'following_count', 'followers_count']
+        fields = ['username', 'bio', 'date_of_birth', 'date_joined','first_name', 'last_name', 'following', 'followers', 'following_count', 'followers_count']
 
 
 class OTPVerificationSerializer(serializers.ModelSerializer):

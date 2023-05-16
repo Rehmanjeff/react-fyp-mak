@@ -48,7 +48,7 @@ class User(AbstractUser):
     def following(self):
         """ Returns a QuerySet of Users that this user follows. """
         follow = self.follows.all()
-        serialized_data = serialize("json", follow,  fields=["username",])
+        serialized_data = serialize("json", follow,  fields=["first_name", "last_name", "username",])
         serialized_data = json.loads(serialized_data)
         return serialized_data
 
@@ -56,7 +56,7 @@ class User(AbstractUser):
     def followers(self):
         """ Returns a QuerySet of Users following this user. """
         follow = self.followed_by.all()
-        serialized_data = serialize("json", follow, fields=["username",])
+        serialized_data = serialize("json", follow, fields=["first_name", "last_name", "username",])
         serialized_data = json.loads(serialized_data)
         return serialized_data
 

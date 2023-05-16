@@ -3,6 +3,9 @@
     <TweetBox @submit="proceedCreateTweet" />
     <div class="py-5">
       <TweetView @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
+      <div class="text-center mt-10 text-gray-400" v-if="tweets.length == 0">
+        No tweets to show
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +51,7 @@ const feed = () => {
        
     if(data.status == 200){
 
-      tweets.value = data.data
+      tweets.value = data.data[0]
     }else{
 
       if(data.response){

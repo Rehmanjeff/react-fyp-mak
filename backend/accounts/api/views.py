@@ -16,6 +16,10 @@ from datetime import datetime,timedelta
 import pytz
 from .permissions import IsVerifiedUser
 from django.core.mail import send_mail
+from django.http import JsonResponse
+import json
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -354,3 +358,30 @@ class RemoveFollower(APIView):
         remover.followed_by.remove(user)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def UpdateUser(request):
+    user = request.user  # Assuming the user is authenticated
+    try:
+        body = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError as e:
+        return JsonResponse({'error': 'Invalid JSON data in the request body.'}, status=400)
+
+    first_name = body.get('first_name')
+    last_name = body.get('last_name')
+    phone_number = body.get('phone_number')
+    is_private = body.get('is_private')
+    
+    if first_name:
+        user.first_name = first_name
+    if last_name:
+        user.last_name = last_name
+    if phone_number:
+        user.phone_number = phone_number
+    if is_private == 0 or is_private == 1:
+        user.is_private = is_private   
+
+    user.save()
+
+    return JsonResponse({'message': 'User information updated successfully.'})

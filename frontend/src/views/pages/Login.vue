@@ -61,10 +61,9 @@
           emit("response", response.message)
         }else if(response.access && response.refresh && response.access){
 
-          localStorage.setItem("dynoAuthToken", response.access);
-          localStorage.setItem("dynoAuthRefreshToken", response.refresh);
-          localStorage.setItem("username", response.username);
-          console.log(localStorage.getItem('username'))
+          localStorage.setItem("dynoAuthToken", response.access)
+          localStorage.setItem("dynoAuthRefreshToken", response.refresh)
+          localStorage.setItem("username", response.username)
   
           emit("response")
         }else{

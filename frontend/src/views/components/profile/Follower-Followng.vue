@@ -4,7 +4,7 @@
       <div class="flex flex-col w-fit mx-auto gap-2">
         <RouterLink :to="{ name: 'Follower' }">
           <div class="font-semibold" :class="activeTab == 'follower' ? 'text-black' : 'text-theme-gray-dark'">
-            Follower
+            Followers
           </div>
         </RouterLink>
         <div v-if="activeTab == 'follower'" class="bg-theme-blue h-1"></div>

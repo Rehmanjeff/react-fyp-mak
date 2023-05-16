@@ -43,10 +43,10 @@ class TweetView(generics.ListAPIView):
 
     def get(self,request):
 
-        tweet = Tweet.objects.all()
-        serializer = TweetDetailSerializer(tweet, many = True)
+        #tweet = Tweet.objects.all()
+        #serializer = TweetDetailSerializer(tweet, many = True)
 
-        return Response(serializer.data)
+        #return Response(serializer.data)
         user = User.objects.get(username = self.request.user)
         following = user.following()
         data = []

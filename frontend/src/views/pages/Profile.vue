@@ -10,29 +10,29 @@
     </div>
     <div class="flex flex-col pl-3">
       <div class="flex flex-col">
-        <span class="font-semibold">User</span>
-        <span class="text-sm text-theme-gray-dark -mt-1 text-sm text-gray-500">@username</span>
+        <span class="font-semibold">{{ profileData ? profileData.first_name+' '+profileData.last_name : '' }}</span>
+        <span class="text-sm text-theme-gray-dark -mt-1 text-sm text-gray-500">@{{ profileData ? profileData.username : '' }}</span>
       </div>
       <div class="flex flex-row w-full mt-2 text-md">
         <div class="flex w-1/2 items-center">
           <img src="/assets/images/date.png" class="h-fit mr-2" alt="" />
-          <span class="text-gray-500">Born December 2, 2004</span>
+          <span class="text-gray-500">Born {{ profileData ? profileData.date_of_birth : '' }}</span>
         </div>
         <div class="flex w-1/2 items-center">
           <img src="/assets/images/calendar.png" class="h-fit mr-2" alt="" />
-          <span class="text-gray-500">Join August, 2019</span>
+          <span class="text-gray-500">Joined {{ profileData ? profileData.date_joined : '' }}</span>
         </div>
       </div>
       <div class="flex flex-row w-full mt-2 text-sm">
         <div class="flex w-1/4 gap-2 mt-4 text-gray-500">
           <RouterLink :to="{ name: 'Following' }">
-            <span class="mr-1 font-bold text-black">12</span>
+            <span class="mr-1 font-bold text-black">{{ profileData ? profileData.following_count : 0 }}</span>
             <span>Following</span>
           </RouterLink>
         </div>
         <div class="flex w-1/4 gap-2 mt-4 text-gray-500">
           <RouterLink :to="{ name: 'Follower' }">
-            <span class="mr-1 font-bold text-black">2</span>
+            <span class="mr-1 font-bold text-black">{{ profileData ? profileData.followers_count : 0 }}</span>
             <span>Followers</span>
           </RouterLink>
         </div>
@@ -73,15 +73,50 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import LikesVue from "@/views/components/profile/Likes.vue"
 import MediaVue from "@/views/components/profile/Media.vue"
 import TweetsRepliesVue from "@/views/components/profile/Tweets-Replies.vue"
 import TweetsVue from "@/views/components/profile/Tweets.vue"
+import User from "@/composables/User.js"
+
+const { profile } = User()
+const profileData = ref(false)
+const token = localStorage.getItem("dynoAuthToken")
 
 const activeTab = ref("tweets")
 function tabChange(value) {
   activeTab.value = value
 }
+
+const userProfile = () => {
+
+  profile(token).then((data) => {
+      
+    if(data.status == 200){
+
+      profileData.value = data.data
+      const [dobyear, dobmonth, dobday] = data.data.date_of_birth.split('-')
+      const [year, month, day] = data.data.date_joined.split('-')
+      const months = ['January', 'February', 'March', 'April', 'May', 'June','July', 'August', 'September', 'October', 'November', 'December']
+      const dobMonthName = months[parseInt(dobmonth) - 1]
+      const monthName = months[parseInt(month) - 1]
+      profileData.value.date_of_birth = dobMonthName+' '+dobday+', '+dobyear
+      profileData.value.date_joined = monthName+', '+year
+    }else{
+
+      if(data.response){
+
+        error.value = data.response.data.detail
+      }
+      error.value = data.message
+    }
+  })
+}
+
+onMounted(() => {
+  
+  userProfile()
+})
 
 </script>

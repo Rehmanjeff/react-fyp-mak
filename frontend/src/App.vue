@@ -39,5 +39,5 @@ const checkLogin = () => {
   
   isLoggedIn.value = localStorage.getItem('dynoAuthToken')
 }
-
+//console.log(token.value)
 </script>
