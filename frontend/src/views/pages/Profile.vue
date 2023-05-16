@@ -40,53 +40,25 @@
     </div>
     <div class="flex flex-row justify-around w-full gap-2 mt-8 text-sm cursor-pointer text-sm">
       <div @click="tabChange('tweets')" class="text-center">
-        <div
-          @click="activeTab = 'tweets'"
-          :class="[
-            activeTab == 'tweets'
-              ? 'border-b-2 border-theme-blue'
-              : 'hover:border-b-2 hover:border-theme-blue',
-          ]"
-        >
+        <div @click="activeTab = 'tweets'" :class="[activeTab == 'tweets' ? 'border-b-2 border-theme-blue' : 'hover:border-b-2 hover:border-theme-blue']">
           Tweets
         </div>
       </div>
 
       <div @click="tabChange('tweets&replies')" class="text-center">
-        <div
-          @click="activeTab = 'tweets&replies'"
-          :class="[
-            activeTab == 'tweets&replies'
-              ? 'border-b-2 border-theme-blue'
-              : 'hover:border-b-2 hover:border-theme-blue',
-          ]"
-        >
+        <div @click="activeTab = 'tweets&replies'" :class="[activeTab == 'tweets&replies' ? 'border-b-2 border-theme-blue' : 'hover:border-b-2 hover:border-theme-blue']">
           Tweets & Replies
         </div>
       </div>
 
       <div @click="tabChange('media')" class="text-center">
-        <div
-          @click="activeTab = 'media'"
-          :class="[
-            activeTab == 'media'
-              ? 'border-b-2 border-theme-blue'
-              : 'hover:border-b-2 hover:border-theme-blue',
-          ]"
-        >
+        <div @click="activeTab = 'media'" :class="[activeTab == 'media' ? 'border-b-2 border-theme-blue' : 'hover:border-b-2 hover:border-theme-blue']">
           Media
         </div>
       </div>
 
       <div @click="tabChange('likes')" class="text-center">
-        <div
-          @click="activeTab = 'likes'"
-          :class="[
-            activeTab == 'likes'
-              ? 'border-b-2 border-theme-blue'
-              : 'hover:border-b-2 hover:border-theme-blue',
-          ]"
-        >
+        <div @click="activeTab = 'likes'" :class="[activeTab == 'likes' ? 'border-b-2 border-theme-blue' : 'hover:border-b-2 hover:border-theme-blue']">
           Likes
         </div>
       </div>
@@ -101,13 +73,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref } from "vue"
 import LikesVue from "@/views/components/profile/Likes.vue"
 import MediaVue from "@/views/components/profile/Media.vue"
 import TweetsRepliesVue from "@/views/components/profile/Tweets-Replies.vue"
 import TweetsVue from "@/views/components/profile/Tweets.vue"
 
-const activeTab = ref("tweets");
+const activeTab = ref("tweets")
 function tabChange(value) {
   activeTab.value = value
 }

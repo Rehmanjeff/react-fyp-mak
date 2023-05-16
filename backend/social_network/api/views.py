@@ -43,10 +43,10 @@ class TweetView(generics.ListAPIView):
 
     def get(self,request):
 
-        #tweet = Tweet.objects.all()
-        #serializer = TweetDetailSerializer(tweet, many = True)
+        tweet = Tweet.objects.all()
+        serializer = TweetDetailSerializer(tweet, many = True)
 
-        #return Response(serializer.data)
+        return Response(serializer.data)
         user = User.objects.get(username = self.request.user)
         following = user.following()
         data = []
@@ -265,3 +265,37 @@ class UserTweetLikes(generics.ListAPIView):
             data.append(like.tweet.id)
 
         return Response(data, status = status.HTTP_200_OK)
+    
+class UserProfileTweets(generics.ListAPIView):
+
+    permission_classes = [IsVerifiedUser]
+
+    def get(self,request):
+        
+        try:
+            tweets = Tweet.objects.filter(user = self.request.user)
+            data = []
+            for tweet in tweets:
+                serializer = TweetDetailSerializer(tweet)
+                data.append(serializer.data)
+        except Tweet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data, status = status.HTTP_200_OK)
+    
+class UserProfileLikedTweets(generics.ListAPIView):
+
+    permission_classes = [IsVerifiedUser]
+
+    def get(self,request):
+        
+        try:
+            likes = Like.objects.filter(user = self.request.user, like = True)
+            data = []
+            for like in likes:
+                serializer = TweetDetailSerializer(like.tweet)
+                data.append(serializer.data)
+
+            return Response(data, status = status.HTTP_200_OK)
+        except Tweet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)

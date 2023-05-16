@@ -1,35 +1,86 @@
 <template>
   <div class="flex flex-col py-3 border-r border-theme-gray-border">
-    <div class="flex flex-col px-3 py-2 border-t border-b border-theme-gray-border">
-      <div class="flex flex-row items-center">
-        <div class="w-1/10">
-          <img class="rounded-full" src="/assets/images/default_profile.png" alt="" />
-        </div>
-        <div class="w-full">
-          <input v-model="tweet" type="text" class="text-xl outline-none w-full" placeholder="Whats happening" />
-        </div>
-      </div>
-      <div class="flex flex-row mt-5">
-        <div class="w-1/10"></div>
-        <div class="flex flex-row items-center w-full">
-          <div class="rounded-full hover:bg-blue-50 p-2 cursor-pointer">
-            <img class="h-fit" src="/assets/images/tweet-image-upload.png" alt="" />
-          </div>
-          <div :class="tweet.length == 0 ? 'opacity-50' : 'cursor-pointer'" class="ml-auto bg-theme-blue text-white rounded-full px-5 py-2">Tweet</div>
-        </div>
-      </div>
-    </div>
+    <TweetBox @submit="proceedCreateTweet" />
     <div class="py-5">
-      <Tweet />
-      <Tweet />
+      <TweetView @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import Tweet from "@/views/components/Tweet.vue"
+import { onMounted, ref } from 'vue'
+import TweetView from "@/views/components/TweetView.vue"
+import TweetBox from "@/views/components/TweetBox.vue"
+import Tweet from "@/composables/Tweet.js"
 
+const { createTweet, userHomeFeed, toggleLikeTweet } = Tweet()
+const loading = ref(false)
 const tweet = ref('')
+const error = ref('')
+const tweets = ref([])
+
+const proceedCreateTweet = (text) => {
+
+  if(!loading.value){
+    
+    loading.value = true
+    createTweet(text).then((data) => {
+
+      loading.value = false        
+      if(data.status == 201){
+
+        tweet.value = ''
+      }else{
+
+        if(data.response){
+
+          error.value = data.response.data.detail
+        }
+        error.value = data.message
+      }
+    })
+  }
+}
+
+const feed = () => {
+
+  userHomeFeed().then((data) => {
+       
+    if(data.status == 200){
+
+      tweets.value = data.data
+    }else{
+
+      if(data.response){
+
+        error.value = data.response.data.detail
+      }
+      error.value = data.message
+    }
+  })
+}
+
+const toggleLiked = (id, status) => {
+
+    const action = status == 'liked' ? 'unlike' : 'like'
+    toggleLikeTweet(id, action).then((data) => {
+        if(data.status == 201 || data.status == 204){
+
+          feed()
+        }else{
+
+            if(data.response){
+
+                error.value = data.response.data.detail
+            }
+            error.value = data.message
+        }
+    })
+}
+
+onMounted(() => {
+  
+  feed()
+})
 
 </script>

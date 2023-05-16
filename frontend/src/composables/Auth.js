@@ -19,7 +19,7 @@ const Auth = () => {
                         body:JSON.stringify({'refresh':response.data.refresh})
                     })
 
-                    let data = await responsee.json()
+                    let data = response.data
                     return data
                 }else{
 
@@ -44,6 +44,7 @@ const Auth = () => {
 
                 localStorage.removeItem('dynoAuthRefreshToken')
                 localStorage.removeItem('dynoAuthToken')
+                localStorage.removeItem('username')
             }
 
             return response;

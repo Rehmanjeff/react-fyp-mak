@@ -33,6 +33,8 @@
 <script setup>
 import Search from '@/views/components/Search.vue'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+
 // pages that have symmetric layouts (right and left bars with same width and main content on the center)
 const symetricLayout = [
     'Home',
@@ -40,5 +42,7 @@ const symetricLayout = [
     'Follower',
     'Following'
 ]
+const route = useRoute()
 
+console.log(route.name);
 </script>

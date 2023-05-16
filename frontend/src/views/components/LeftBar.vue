@@ -5,12 +5,12 @@
     </div>
     <div class="flex flex-row items-center pl-4 py-2 my-1 hover:bg-theme-gray w-fit pr-5 rounded-full" v-for="item in navigation" :key="item.id">
       <div class="mr-5">
-        <img v-if="item.icon" :src="item.is_active ? '/assets/images/'+item.active_icon : '/assets/images/'+item.icon" alt="{{ item.name }}" />
+        <img v-if="item.icon" :src="$route.name == item.name ? '/assets/images/'+item.active_icon : '/assets/images/'+item.icon" alt="{{ item.name }}" />
       </div>
-      <RouterLink class="text-xl" :class="item.is_active ? 'font-semibold' : 'font-normal'" :to="{ name: item.link }">{{ item.name }}</RouterLink>
+      <RouterLink class="text-xl" :class="$route.name == item.name ? 'font-semibold' : 'font-normal'" :to="{ name: item.link }">{{ item.name }}</RouterLink>
     </div>
     <div class="my-4 pr-10">
-      <div class="py-3 px-2 rounded-full text-center cursor-pointer bg-theme-blue text-white font-semibold text-lg hover:bg-theme-blue-darker">Tweet</div>
+      <div @click="open = true" class="py-3 px-2 rounded-full text-center cursor-pointer bg-theme-blue text-white font-semibold text-lg hover:bg-theme-blue-darker">Tweet</div>
     </div>
     <div v-if="userMenu" @click.stop="userMenu = true" class="fixed border rounded-lg bottom-24">
       <hr class="mt-3" />
@@ -30,13 +30,13 @@
         <img src="/assets/images/more.png" alt="" />
       </div>
     </div>
-    <TweetBox :open="open" @closed="open = false" />
+    <TweetModal :open="open" @closed="open = false" />
   </div>  
 </template>
 
 <script setup>
 import Auth from "@/composables/Auth.js"
-import TweetBox from "@/views/components/TweetBox.vue"
+import TweetModal from "@/views/components/TweetModal.vue"
 import { ref, onMounted } from "vue"
 
 const emit = defineEmits(['logout', 'logoutError'])
@@ -45,12 +45,12 @@ const userMenu = ref(false)
 const { logout } = Auth()
 const navigation = [
 
-  { id: 1, name: "Home", icon: "home.png", active_icon: "home-active.png", link: "Home", is_active: true },
-  { id: 2, name: "Messages", icon: "messages.png" , active_icon: "messages-active.png", link: "Messages", is_active: false },
-  { id: 3, name: "Profile", icon: "profile.png" , active_icon: "profile-active.png", link: "Profile", is_active: false },
-  { id: 4, name: "Settings", icon: "settings.png", active_icon: false, link: "Settings", is_active: false },
+  { id: 1, name: "Home", icon: "home.png", active_icon: "home-active.png", link: "Home" },
+  { id: 2, name: "Messages", icon: "messages.png" , active_icon: "messages-active.png", link: "Messages" },
+  { id: 3, name: "Profile", icon: "profile.png" , active_icon: "profile-active.png", link: "Profile" },
+  { id: 4, name: "Settings", icon: "settings.png", active_icon: "settings-active.png", link: "Settings" },
 
-];
+]
 const token = localStorage.getItem("dynoAuthToken")
 const tokenRefresh = localStorage.getItem("dynoAuthRefreshToken")
 
@@ -67,6 +67,7 @@ const proceedLogout = async () => {
 
     localStorage.removeItem('dynoAuthRefreshToken')
     localStorage.removeItem('dynoAuthToken')
+    localStorage.removeItem('username')
     emit('logout')
   }
 }

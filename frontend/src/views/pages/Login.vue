@@ -63,6 +63,8 @@
 
           localStorage.setItem("dynoAuthToken", response.access);
           localStorage.setItem("dynoAuthRefreshToken", response.refresh);
+          localStorage.setItem("username", response.username);
+          console.log(localStorage.getItem('username'))
   
           emit("response")
         }else{
