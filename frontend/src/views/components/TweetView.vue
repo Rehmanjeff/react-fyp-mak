@@ -20,7 +20,7 @@
                 <img class="rounded-lg" src="/assets/images/FvFfPANWcAMrSYJ.jpeg" alt="" />
             </div>-->
             <div class="flex flex-row items-center justify-between mt-5 text-sm text-theme-gray-dark">
-                <div class="flex flex-row items-center gap-2 cursor-pointer">
+                <div @click="openComment = true" class="flex flex-row items-center gap-2 cursor-pointer">
                     <img src="/assets/images/comment.png" alt="" />
                     <div>{{ tweet.comments.length }}</div>
                 </div>
@@ -38,15 +38,19 @@
                 </div>
             </div>
         </div>
+        <TweetComment :id="tweet.id" :open="openComment" @closed="commentResponse" />
     </div>
 
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import TweetComment from '@/views/components/TweetComment.vue'
 
 const props = defineProps(['tweet', 'page'])
-const emit = defineEmits(['likeClicked'])
+const emit = defineEmits(['likeClicked', 'commentMade'])
 const username = localStorage.getItem('username')
+const openComment = ref(false)
 
 const [year, month, day] = props.tweet.updated_at.split('-')
 const [realDay, time] = day.split('T')
@@ -55,6 +59,18 @@ props.tweet.updated_at = realDay+' - '+month+' - '+year
 const toggleLiked = (id, status) => {
 
     emit('likeClicked', id, status)
+}
+
+const commentResponse = (statusCode) => {
+
+    if(statusCode == '201'){
+
+        openComment.value = false
+        emit('commentMade')
+    }else{
+
+        openComment.value = false
+    }
 }
 
 const isLikedByUser = (likes) => {

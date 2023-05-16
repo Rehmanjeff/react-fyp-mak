@@ -1,6 +1,6 @@
 <template>
     <div>
-      <TweetView @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
+      <TweetView @commentMade="userTweets()" @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       <div class="text-center mt-10 text-gray-400" v-if="tweets.length == 0">No tweets to show</div>
     </div>
 </template>

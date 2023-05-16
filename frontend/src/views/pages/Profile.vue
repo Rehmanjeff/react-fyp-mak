@@ -83,6 +83,7 @@ import User from "@/composables/User.js"
 const { profile } = User()
 const profileData = ref(false)
 const token = localStorage.getItem("dynoAuthToken")
+const error = ref('')
 
 const activeTab = ref("tweets")
 function tabChange(value) {

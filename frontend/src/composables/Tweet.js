@@ -70,12 +70,25 @@ const Tweet = () => {
         }
     };
 
+    const createTweetComment = async (id, comment) => {
+
+        try {
+
+            let response = await axios.post('http://127.0.0.1:8000/social/api/tweet-comment/'+id + '/', {comment: comment}, { headers: {"Authorization" : `Bearer ${token}`} });
+            return response;
+        } catch (err) {
+
+            return err;
+        }
+    };
+
     return {
         createTweet,
         userHomeFeed,
         userProfileTweets,
         userLikedTweets,
-        toggleLikeTweet
+        toggleLikeTweet,
+        createTweetComment
     }
 };
 

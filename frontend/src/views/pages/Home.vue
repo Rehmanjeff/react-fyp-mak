@@ -2,7 +2,7 @@
   <div class="flex flex-col py-3 border-r border-theme-gray-border">
     <TweetBox @submit="proceedCreateTweet" />
     <div class="py-5">
-      <TweetView @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
+      <TweetView @commentMade="feed()" @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
       <div class="text-center mt-10 text-gray-400" v-if="tweets.length == 0">
         No tweets to show
       </div>
@@ -51,7 +51,7 @@ const feed = () => {
        
     if(data.status == 200){
 
-      tweets.value = data.data[0]
+      tweets.value = data.data.length ? data.data[0] : []
     }else{
 
       if(data.response){

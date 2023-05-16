@@ -21,15 +21,14 @@
                 <div v-for="searchResult in search.results" :key="searchResult.user.id" class="p-3 hover:bg-theme-gray-light">
                     <RouterLink class="flex flex-row gap-3" :to="{ name: 'Profile' }">
                         <div>
-                            <img class="rounded-full" :src="'/assets/images/'+searchResult.user.image" :alt="searchResult.user.username" /> 
+                            <img class="rounded-full" :src="'/assets/images/default_profile.png'" :alt="searchResult.user.username" /> 
                         </div>
                         <div class="flex flex-col">
-                            <div class="font-semibold">{{ searchResult.user.name }}</div>
+                            <div class="font-semibold">{{ searchResult.user.first_name+' '+searchResult.user.last_name }}</div>
                             <div class="text-gray-500 text-sm">{{ searchResult.user.username }}</div>
                         </div>
                     </RouterLink>
                 </div>
-
             </div>
         </div>
     </div>
@@ -38,7 +37,11 @@
 
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+import Search from "@/composables/Search.js"
 
+const { proceedSearch } = Search()
+const token = localStorage.getItem("dynoAuthToken")
+const error = ref('')
 const search = ref({
 
     query: '',
@@ -61,14 +64,24 @@ const handleOutsideClick = (event) => {
 
 watch(() => search.value.query, (newVal, oldVal) => {
     
-    if(newVal.length >= 3){
+    if(newVal.length >= 2){
 
-        search.value.showResults = true
-        search.value.results = [
-            { user: { id: 1, name: 'Spotify', username: '@spoti123', image: 'default_profile.png' } },
-            { user: { id: 2, name: 'Dan', username: '@danis', image: 'default_profile.png' } },
-            { user: { id: 3, name: 'Gigmn', username: '@twitter', image: 'default_profile.png' } },
-        ]
+        proceedSearch(token, search.value.query).then((data) => {
+      
+            if(data.status == 200){
+        
+                search.value.showResults = true
+                search.value.results = data.data
+                console.log(data)
+            }else{
+        console.log(data)
+                if(data.response){
+        
+                    error.value = data.response.data.detail
+                }
+                error.value = data.message
+            }
+        })
     }else{
 
         search.value.results = []
