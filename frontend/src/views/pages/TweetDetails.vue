@@ -2,6 +2,7 @@
     <div>
       <TweetView v-if="tweet" @commentMade="fetchTweetDetails()" @likeClicked="toggleLiked" :tweet="tweet" />
       <TweetCommentBox v-if="tweet" @submit="proceedCreateTweetComment" :username="tweet.user.username" />
+      <Message @hide="showMessage = false" :show="showMessage" miliseconds="3000" :message="toastMessage" />
     </div>
 </template>
 
@@ -10,12 +11,15 @@ import { onMounted, ref } from 'vue'
 import TweetView from "@/views/components/TweetView.vue"
 import Tweet from "@/composables/Tweet.js"
 import TweetCommentBox from "@/views/components/TweetCommentBox.vue"
+import Message from "@/views/components/Message.vue"
 
 const props = defineProps(['id'])
 const { tweetDetails, toggleLikeTweet, createTweetComment } = Tweet()
 const error = ref('')
 const tweet = ref(false)
 const loading = ref(false)
+const showMessage = ref(false)
+const toastMessage = ref('')
 
 const fetchTweetDetails = () => {
 
@@ -63,10 +67,12 @@ const proceedCreateTweetComment = (text) => {
       loading.value = false        
       if(data.status == 201){
 
-          closed('201')
+        toastMessage.value = 'Comment created successfully'
+        showMessage.value = true
+        fetchTweetDetails()
       }else{
 
-          closed(data.status)
+        console.log(data.status)
       }
     })
   }

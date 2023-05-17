@@ -1,6 +1,6 @@
 from .serializers import (UserTweetSerializer, TweetDetailSerializer,
                           AddCommentSerializer, AddReplySerializer,
-                          AddLikeSerializer, ShareTweetSerializer
+                          AddLikeSerializer, ShareTweetSerializer, TweetCommentDetailSerializer
                           
                           )
 from social_network.models import Tweet, Comment, Like
@@ -274,7 +274,7 @@ class UserProfileTweets(generics.ListAPIView):
         
         try:
             if(username == ''):        
-                    tweets = Tweet.objects.filter(user = self.request.user)
+                tweets = Tweet.objects.filter(user = self.request.user)
             else:
                 userr = User.objects.get(username = username)
                 tweets = Tweet.objects.filter(user = userr.id)
@@ -283,6 +283,27 @@ class UserProfileTweets(generics.ListAPIView):
                 serializer = TweetDetailSerializer(tweet)
                 data.append(serializer.data)
         except Tweet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data, status = status.HTTP_200_OK)
+    
+class UserProfileCommentTweets(generics.ListAPIView):
+
+    permission_classes = [IsVerifiedUser]
+
+    def get(self,request,username = ''):
+        
+        try:
+            if(username == ''):        
+                comments = Comment.objects.filter(user = self.request.user)
+            else:
+                userr = User.objects.get(username = username)
+                comments = Comment.objects.filter(user = userr.id)
+            data = []
+            for comment in comments:
+                serializer = TweetCommentDetailSerializer(comment)
+                data.append(serializer.data)
+        except Comment.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(data, status = status.HTTP_200_OK)

@@ -34,9 +34,19 @@ const CommonFunctions = () => {
         return currentDomainWithProtocol
     }
 
+    function formatDate(date){
+
+        const [year, month, day] = date.split('-')
+        const [realDay, time] = day.split('T')
+        const formatedDate = realDay+' - '+month+' - '+year
+
+        return formatedDate
+    }
+
     return {
         copyToClipboard,
-        domainWithProtocol
+        domainWithProtocol,
+        formatDate
     };
 };
 

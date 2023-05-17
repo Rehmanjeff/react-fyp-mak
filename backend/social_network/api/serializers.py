@@ -109,6 +109,14 @@ class TweetDetailSerializer(serializers.ModelSerializer):
         model = Tweet
         fields = ['id', 'user', 'text', 'share', 'comments', 'likes', 'updated_at']
 
+class TweetCommentDetailSerializer(serializers.ModelSerializer):
+
+    tweet = TweetDetailSerializer(read_only = True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'comment', 'tweet']
+
 
 class AddCommentSerializer(serializers.ModelSerializer):
 

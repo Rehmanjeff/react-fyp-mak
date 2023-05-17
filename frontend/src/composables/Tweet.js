@@ -45,6 +45,24 @@ const Tweet = () => {
         }
     };
 
+    const userProfileTweetComments = async (username) => {
+
+        try {
+
+            if (username == '') {
+                let response = await axios.get('http://127.0.0.1:8000/social/api/tweet-comments/profile', { headers: {"Authorization" : `Bearer ${token}`} });
+                return response;
+            } else {
+                let response = await axios.get('http://127.0.0.1:8000/social/api/tweet-comments/profile/' + username + '/', { headers: {"Authorization" : `Bearer ${token}`} });
+                return response;
+
+            }
+        } catch (err) {
+
+            return err;
+        }
+    };
+
     const userLikedTweets = async (username) => {
 
         try {
@@ -125,7 +143,8 @@ const Tweet = () => {
         toggleLikeTweet,
         createTweetComment,
         tweetDetails,
-        quoteTweet
+        quoteTweet,
+        userProfileTweetComments
     }
 };
 

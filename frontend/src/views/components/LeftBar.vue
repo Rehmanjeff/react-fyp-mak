@@ -7,7 +7,8 @@
       <div class="mr-5">
         <img v-if="item.icon" :src="$route.name == item.name ? '/assets/images/'+item.active_icon : '/assets/images/'+item.icon" alt="{{ item.name }}" />
       </div>
-      <RouterLink class="text-xl" :class="$route.name == item.name ? 'font-semibold' : 'font-normal'" :to="{ name: item.link }">{{ item.name }}</RouterLink>
+      <RouterLink v-if="!item.params" class="text-xl" :class="$route.name == item.name ? 'font-semibold' : 'font-normal'" :to="{ name: item.link }">{{ item.name }}</RouterLink>
+      <RouterLink v-else class="text-xl" :class="$route.name == item.name ? 'font-semibold' : 'font-normal'" :to="{ name: item.link, params: item.params }">{{ item.name }}</RouterLink>
     </div>
     <div class="my-4 pr-10">
       <div @click="open = true" class="py-3 px-2 rounded-full text-center cursor-pointer bg-theme-blue text-white font-semibold text-lg hover:bg-theme-blue-darker">Tweet</div>
@@ -49,7 +50,7 @@ const navigation = [
 
   { id: 1, name: "Home", icon: "home.png", active_icon: "home-active.png", link: "Home" },
   { id: 2, name: "Messages", icon: "messages.png" , active_icon: "messages-active.png", link: "Messages" },
-  { id: 3, name: "Profile", icon: "profile.png" , active_icon: "profile-active.png", link: "Profile" },
+  { id: 3, name: "Profile", icon: "profile.png" , active_icon: "profile-active.png", link: "Profile", params: { username : '' } },
   { id: 4, name: "Settings", icon: "settings.png", active_icon: "settings-active.png", link: "Settings" },
 
 ]

@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import TweetView from "@/views/components/TweetView.vue"
 import Tweet from "@/composables/Tweet.js"
 import { useRoute } from 'vue-router'
@@ -15,11 +15,26 @@ const { userLikedTweets, toggleLikeTweet } = Tweet()
 const error = ref('')
 const tweets = ref([])
 const route = useRoute()
-const username = route.params.username
+const username = ref(route.params.username)
+
+watch( () => route.params.username, (newValue, oldValue) => {
+  
+  if (newValue !== oldValue) {
+    if (newValue === '') {
+      
+      username.value = ''
+      likedTweets()
+    }else{
+      
+      username.value = route.params.username
+      likedTweets()
+    }
+  }
+})
 
 const likedTweets = () => {
 
-    userLikedTweets(username).then((data) => {
+    userLikedTweets(username.value).then((data) => {
      
         if(data.status == 200){
 

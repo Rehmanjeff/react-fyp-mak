@@ -45,19 +45,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import TweetComment from '@/views/components/TweetComment.vue'
 import TweetQuote from '@/views/components/TweetQuote.vue'
+import CommonFunctions from "@/composables/commonFunctions.js"
 
 const props = defineProps(['tweet', 'page'])
 const emit = defineEmits(['likeClicked', 'commentMade', 'shareClicked', 'quoteTweeted'])
 const username = localStorage.getItem('username')
 const openComment = ref(false)
 const openQuoteTweet = ref(false)
+const { formatDate } = CommonFunctions()
 
-const [year, month, day] = props.tweet.updated_at.split('-')
-const [realDay, time] = day.split('T')
-props.tweet.updated_at = realDay+' - '+month+' - '+year
+props.tweet.updated_at = formatDate(props.tweet.updated_at)
+
+watch(() => props.tweet, (newValue, oldValue) => {
+    
+    if(newValue){
+
+        props.tweet.updated_at = formatDate(props.tweet.updated_at)
+    }
+})
 
 const toggleLiked = (id, status) => {
 

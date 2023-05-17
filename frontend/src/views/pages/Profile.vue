@@ -47,7 +47,7 @@
 
       <div @click="tabChange('tweets&replies')" class="text-center">
         <div @click="activeTab = 'tweets&replies'" :class="[activeTab == 'tweets&replies' ? 'border-b-2 border-theme-blue' : 'hover:border-b-2 hover:border-theme-blue']">
-          Tweets & Replies
+          Replies
         </div>
       </div>
 
@@ -65,7 +65,7 @@
     </div>
     <div class="mt-4">
       <LikesVue v-if="activeTab == 'likes'" />
-      <TweetsVue v-if="activeTab == 'tweets'" />
+      <TweetsVue :forceReload="reload" v-if="activeTab == 'tweets'" />
       <MediaVue v-if="activeTab == 'media'" />
       <TweetsRepliesVue v-if="activeTab == 'tweets&replies'" />
     </div>
@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import LikesVue from "@/views/components/profile/Likes.vue"
 import MediaVue from "@/views/components/profile/Media.vue"
 import TweetsRepliesVue from "@/views/components/profile/Tweets-Replies.vue"
@@ -90,17 +90,33 @@ const token = localStorage.getItem("dynoAuthToken")
 const error = ref('')
 const toastMessage = ref('')
 const route = useRoute()
-const username = route.params.username
+const username = ref(route.params.username)
+const reload = ref(false)
 
 const activeTab = ref("tweets")
 function tabChange(value) {
   activeTab.value = value
 }
 
+watch( () => route.params.username, (newValue, oldValue) => {
+  
+  if (newValue !== oldValue) {
+    if (newValue === '') {
+      
+      username.value = ''
+      userProfile()
+    }else{
+      
+      username.value = route.params.username
+      userProfile()
+    }
+  }
+})
+
 const userProfile = () => {
 
-  profile(token, username).then((data) => {
-      
+  profile(token, username.value).then((data) => {
+    
     if(data.status == 200){
 
       profileData.value = data.data
