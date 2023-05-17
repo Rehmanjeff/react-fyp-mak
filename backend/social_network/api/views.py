@@ -270,10 +270,14 @@ class UserProfileTweets(generics.ListAPIView):
 
     permission_classes = [IsVerifiedUser]
 
-    def get(self,request):
+    def get(self,request,username = ''):
         
         try:
-            tweets = Tweet.objects.filter(user = self.request.user)
+            if(username == ''):        
+                    tweets = Tweet.objects.filter(user = self.request.user)
+            else:
+                userr = User.objects.get(username = username)
+                tweets = Tweet.objects.filter(user = userr.id)
             data = []
             for tweet in tweets:
                 serializer = TweetDetailSerializer(tweet)
@@ -287,10 +291,14 @@ class UserProfileLikedTweets(generics.ListAPIView):
 
     permission_classes = [IsVerifiedUser]
 
-    def get(self,request):
+    def get(self,request,username = ''):
         
         try:
-            likes = Like.objects.filter(user = self.request.user, like = True)
+            if (username == ''):
+                likes = Like.objects.filter(user = self.request.user, like = True)
+            else:
+                userr = User.objects.get(username=username)
+                likes = Like.objects.filter(user = userr.id , like = True)    
             data = []
             for like in likes:
                 serializer = TweetDetailSerializer(like.tweet)

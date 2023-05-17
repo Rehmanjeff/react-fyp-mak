@@ -17,7 +17,9 @@ from .views import (
     ForgetPasswordView,
     SendOtp,
     RemoveFollower,
-    UpdateUser
+    UpdateUser,
+    UserSearch,
+    GetUserByUsername
 )
 
 urlpatterns = [
@@ -41,4 +43,6 @@ urlpatterns = [
     path('logout/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('remove-follower/<int:pk>/', RemoveFollower.as_view(), name = 'remove-follower'),
     path('user/update/', UpdateUser, name='update_user'),
+    path('user-search/<str:search>', UserSearch.as_view(), name = 'user-search'),
+    path('user/<str:username>/', GetUserByUsername.as_view(), name='GetUserByUsername'),
 ]

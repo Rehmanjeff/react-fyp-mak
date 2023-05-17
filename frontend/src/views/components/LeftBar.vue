@@ -15,7 +15,7 @@
     <div v-if="userMenu" @click.stop="userMenu = true" class="fixed border rounded-lg bottom-24">
       <hr class="mt-3" />
       <div @click="proceedLogout" class="px-12 py-4 font-semibold cursor-pointer text-semibold hover:bg-gray-100">
-        Log out @Dany37348934
+        Log out @{{ localUsername }}
       </div>
     </div>
     <div @click.stop="userMenu = !userMenu" class="relative flex flex-row items-center px-4 py-2 mt-auto mb-10 rounded-full cursor-pointer hover:bg-theme-gray">
@@ -23,14 +23,15 @@
         <img class="rounded-full" src="/assets/images/default_profile.png" alt="" />
       </div>
       <div class="flex flex-col">
-        <div class="font-semibold text-md">Dany</div>
-        <div class="-mt-1 text-gray-600 text-md">@Dany37348934</div>
+        <div class="font-semibold text-md">{{ localUserFullName }}</div>
+        <div class="-mt-1 text-gray-600 text-md">@{{ localUsername }}</div>
       </div>
       <div class="ml-auto">
         <img src="/assets/images/more.png" alt="" />
       </div>
     </div>
-    <TweetModal :open="open" @closed="open = false" />
+    <TweetModal :open="open" @closed="closed" />
+    <Message @hide="showMessage = false" :show="showMessage" miliseconds="3000" :message="toastMessage" />
   </div>  
 </template>
 
@@ -38,6 +39,7 @@
 import Auth from "@/composables/Auth.js"
 import TweetModal from "@/views/components/TweetModal.vue"
 import { ref, onMounted } from "vue"
+import Message from "@/views/components/Message.vue"
 
 const emit = defineEmits(['logout', 'logoutError'])
 const open = ref(false)
@@ -53,6 +55,10 @@ const navigation = [
 ]
 const token = localStorage.getItem("dynoAuthToken")
 const tokenRefresh = localStorage.getItem("dynoAuthRefreshToken")
+const showMessage = ref(false)
+const toastMessage = ref('')
+const localUserFullName = localStorage.getItem("name")
+const localUsername = localStorage.getItem("username")
 
 const proceedLogout = async () => {
 
@@ -70,6 +76,13 @@ const proceedLogout = async () => {
     localStorage.removeItem('username')
     emit('logout')
   }
+}
+
+const closed = () => {
+
+  open.value = false
+  toastMessage.value = 'Tweet created successfully'
+  showMessage.value = true
 }
 
 onMounted(() => {

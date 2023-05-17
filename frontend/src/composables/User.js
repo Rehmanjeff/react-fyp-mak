@@ -2,12 +2,19 @@ import axios from "axios"
 
 const User = () => {
 
-    const profile = async (token) => {
+    const profile = async (token, username = '') => {
 
         try {
 
-            let response = await axios.get('http://127.0.0.1:8000/accounts/api/followers-list/', { headers: {"Authorization" : `Bearer ${token}`} });
+           if(username == ''){
+
+             let response = await axios.get('http://127.0.0.1:8000/accounts/api/followers-list/', { headers: {"Authorization" : `Bearer ${token}`} });
+             return response;
+           }else{
+
+            let response = await axios.get('http://127.0.0.1:8000/accounts/api/user/' + username + '/', { headers: {"Authorization" : `Bearer ${token}`} });
             return response;
+           }
         }catch(err){
 
             return err;

@@ -9,14 +9,17 @@
 import { onMounted, ref } from 'vue'
 import TweetView from "@/views/components/TweetView.vue"
 import Tweet from "@/composables/Tweet.js"
+import { useRoute } from 'vue-router'
 
 const { userLikedTweets, toggleLikeTweet } = Tweet()
 const error = ref('')
 const tweets = ref([])
+const route = useRoute()
+const username = route.params.username
 
 const likedTweets = () => {
 
-    userLikedTweets().then((data) => {
+    userLikedTweets(username).then((data) => {
      
         if(data.status == 200){
 

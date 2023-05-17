@@ -7,6 +7,7 @@ import Messages from "@/views/pages/Messages.vue"
 import Follower from "@/views/pages/Follower.vue"
 import Following from "@/views/pages/Following.vue"
 import Settings from "@/views/pages/Settings.vue"
+import TweetDetails from "@/views/pages/TweetDetails.vue"
 
 const routes = [
   {
@@ -18,7 +19,7 @@ const routes = [
     }
   },
   {
-    path: "/profile",
+    path: "/profile/:username?",
     name: "Profile",
     component: Profile,
     meta: {
@@ -57,6 +58,18 @@ const routes = [
     path: "/settings",
     name: "Settings",
     component: Settings,
+    meta: {
+      displayName: "Messages"
+    }
+  },
+  {
+    path: "/tweet/:id",
+    name: "TweetDetails",
+    component: TweetDetails,
+    props: true,
+    meta: {
+      displayName: "Tweet Details"
+    }
   },
 ];
 

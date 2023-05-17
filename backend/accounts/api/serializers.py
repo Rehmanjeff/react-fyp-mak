@@ -15,6 +15,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['is_verified'] = self.user.is_verified
         data['username'] = self.user.username
         data['email'] = self.user.email
+        data['name'] = self.user.first_name+' '+self.user.last_name
 
         return data
 
@@ -70,7 +71,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name','last_name', 'bio', 'is_private', 'phone_number']
+        fields = ['username', 'first_name','last_name', 'bio', 'is_private', 'phone_number']
 
 
     def update(self, instance, validated_data):

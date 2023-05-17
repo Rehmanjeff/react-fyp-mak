@@ -2,7 +2,7 @@ import axios from "axios"
 
 const Search = () => {
 
-    const proceedSearch = async (token, search) => {
+    const proceedSearchTweet = async (token, search) => {
 
         try {
 
@@ -14,8 +14,21 @@ const Search = () => {
         }
     };
 
+    const proceedSearchUser = async (token, search) => {
+
+        try {
+
+            let response = await axios.get('http://127.0.0.1:8000/accounts/api/user-search/' + search, { headers: {"Authorization" : `Bearer ${token}`} });
+            return response;
+        }catch(err){
+
+            return err;
+        }
+    };
+
     return {
-        proceedSearch
+        proceedSearchTweet,
+        proceedSearchUser
     }
 };
 

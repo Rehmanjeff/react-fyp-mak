@@ -27,24 +27,35 @@ const Tweet = () => {
         }
     };
 
-    const userProfileTweets = async () => {
+    const userProfileTweets = async (username) => {
 
         try {
 
-            let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/profile', { headers: {"Authorization" : `Bearer ${token}`} });
-            return response;
+            if (username == '') {
+                let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/profile', { headers: {"Authorization" : `Bearer ${token}`} });
+                return response;
+            } else {
+                let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/profile/' + username + '/', { headers: {"Authorization" : `Bearer ${token}`} });
+                return response;
+
+            }
         } catch (err) {
 
             return err;
         }
     };
 
-    const userLikedTweets = async () => {
+    const userLikedTweets = async (username) => {
 
         try {
 
-            let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/profile/liked', { headers: {"Authorization" : `Bearer ${token}`} });
-            return response;
+           if (username == '') {
+             let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/profile/liked', { headers: {"Authorization" : `Bearer ${token}`} });
+             return response;
+           } else {
+            let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/profile/liked/' + username + '/', { headers: {"Authorization" : `Bearer ${token}`} });
+             return response;
+           }
         } catch (err) {
 
             return err;
@@ -82,13 +93,39 @@ const Tweet = () => {
         }
     };
 
+    const tweetDetails = async (id) => {
+
+        try {
+
+            let response = await axios.get('http://127.0.0.1:8000/social/api/tweet/'+id, { headers: {"Authorization" : `Bearer ${token}`} });
+            return response;
+        } catch (err) {
+
+            return err;
+        }
+    };
+
+    const quoteTweet = async (id, text) => {
+
+        try {
+
+            let response = await axios.post('http://127.0.0.1:8000/social/api/share-tweet/' + id + '/', { text: text }, { headers: {"Authorization" : `Bearer ${token}`} });
+            return response;
+        } catch (err) {
+
+            return err;
+        }
+    };
+
     return {
         createTweet,
         userHomeFeed,
         userProfileTweets,
         userLikedTweets,
         toggleLikeTweet,
-        createTweetComment
+        createTweetComment,
+        tweetDetails,
+        quoteTweet
     }
 };
 

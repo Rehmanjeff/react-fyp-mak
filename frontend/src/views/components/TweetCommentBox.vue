@@ -1,6 +1,13 @@
 <template>
   
-  <div class="flex flex-col px-3 py-4 border-t border-b border-theme-gray-border">
+  <div class="flex flex-col px-3 py-4 border-b border-theme-gray-border">
+        <div class="flex flex-row items-center gap-2">
+            <div class="w-1/10"></div>
+            <div class="w-full text-theme-gray-dark">
+                Replying to
+                <RouterLink class="text-theme-blue" :to="{ name: 'Profile', params: { username: username } }"> @{{ username }} </RouterLink>
+            </div>
+        </div>
         <div class="flex flex-row items-center gap-2">
             <div class="w-1/10">
                 <img class="rounded-full" src="/assets/images/default_profile.png" alt=""/>
@@ -28,6 +35,7 @@
 import { ref } from 'vue'
 
 const emit = defineEmits(['submit'])
+const props = defineProps(['username'])
 const comment = ref('')
 
 const clicked = () => {

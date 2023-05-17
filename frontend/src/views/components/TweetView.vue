@@ -24,21 +24,22 @@
                     <img src="/assets/images/comment.png" alt="" />
                     <div>{{ tweet.comments.length }}</div>
                 </div>
-                <div class="flex flex-row items-center gap-2 cursor-pointer">
+                <div @click="openQuoteTweet = true" class="flex flex-row items-center gap-2 cursor-pointer">
                     <img src="/assets/images/retweet.png" alt="" />
-                    <div>0</div>
+                    <div>{{ tweet.share.length }}</div>
                 </div>
                 <div @click="toggleLiked(tweet.id, isLikedByUser(tweet.likes) ? 'liked' : 'not-liked')" class="flex flex-row items-center gap-2 cursor-pointer">
                     <img v-if="!isLikedByUser(tweet.likes)" src="/assets/images/like.png" alt="" />
                     <img v-else src="/assets/images/liked.png" alt="" />
                     <div>{{ tweet.likes.length }}</div>
                 </div>
-                <div class="flex flex-row items-center cursor-pointer">
+                <div @click="shareClicked(tweet.id)" class="flex flex-row items-center cursor-pointer">
                     <img src="/assets/images/share.png" alt="" />
                 </div>
             </div>
         </div>
-        <TweetComment :id="tweet.id" :open="openComment" @closed="commentResponse" />
+        <TweetComment :id="tweet.id" :open="openComment" @closed="commentResponse" :username="tweet.user.username" />
+        <TweetQuote :id="tweet.id" :open="openQuoteTweet" @closed="quoteResponse" />
     </div>
 
 </template>
@@ -46,11 +47,13 @@
 <script setup>
 import { ref } from 'vue'
 import TweetComment from '@/views/components/TweetComment.vue'
+import TweetQuote from '@/views/components/TweetQuote.vue'
 
 const props = defineProps(['tweet', 'page'])
-const emit = defineEmits(['likeClicked', 'commentMade'])
+const emit = defineEmits(['likeClicked', 'commentMade', 'shareClicked', 'quoteTweeted'])
 const username = localStorage.getItem('username')
 const openComment = ref(false)
+const openQuoteTweet = ref(false)
 
 const [year, month, day] = props.tweet.updated_at.split('-')
 const [realDay, time] = day.split('T')
@@ -71,6 +74,23 @@ const commentResponse = (statusCode) => {
 
         openComment.value = false
     }
+}
+
+const quoteResponse = (statusCode) => {
+
+    if(statusCode == '201'){
+
+        openQuoteTweet.value = false
+        emit('quoteTweeted')
+    }else{
+
+        openQuoteTweet.value = false
+    }
+}
+
+const shareClicked = (id) => {
+
+    emit('shareClicked', id)
 }
 
 const isLikedByUser = (likes) => {

@@ -69,6 +69,7 @@
       <MediaVue v-if="activeTab == 'media'" />
       <TweetsRepliesVue v-if="activeTab == 'tweets&replies'" />
     </div>
+    <Message @hide="showMessage = false" :show="showMessage" miliseconds="3000" :message="toastMessage" />
   </div>
 </template>
 
@@ -79,11 +80,17 @@ import MediaVue from "@/views/components/profile/Media.vue"
 import TweetsRepliesVue from "@/views/components/profile/Tweets-Replies.vue"
 import TweetsVue from "@/views/components/profile/Tweets.vue"
 import User from "@/composables/User.js"
+import Message from "@/views/components/Message.vue"
+import { useRoute } from "vue-router"
 
+const showMessage = ref(false)
 const { profile } = User()
 const profileData = ref(false)
 const token = localStorage.getItem("dynoAuthToken")
 const error = ref('')
+const toastMessage = ref('')
+const route = useRoute()
+const username = route.params.username
 
 const activeTab = ref("tweets")
 function tabChange(value) {
@@ -92,7 +99,7 @@ function tabChange(value) {
 
 const userProfile = () => {
 
-  profile(token).then((data) => {
+  profile(token, username).then((data) => {
       
     if(data.status == 200){
 

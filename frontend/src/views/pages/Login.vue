@@ -64,6 +64,7 @@
           localStorage.setItem("dynoAuthToken", response.access)
           localStorage.setItem("dynoAuthRefreshToken", response.refresh)
           localStorage.setItem("username", response.username)
+          localStorage.setItem("name", response.name)
   
           emit("response")
         }else{

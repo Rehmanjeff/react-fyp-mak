@@ -385,3 +385,34 @@ def UpdateUser(request):
     user.save()
 
     return JsonResponse({'message': 'User information updated successfully.'})
+
+class UserSearch(generics.ListAPIView):
+
+    permission_classes = [IsVerifiedUser]
+
+    def get(self,request, search):
+        
+        try:
+            
+            users = User.objects.filter(first_name__icontains=search) | User.objects.filter(last_name__icontains=search) | User.objects.filter(username__icontains=search)
+            data = []
+            for user in users:
+                serializer = UserSerializer(user)
+                data.append(serializer.data)
+
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data, status = status.HTTP_200_OK)
+
+class GetUserByUsername(APIView):
+        
+    permission_classes = [IsVerifiedUser]
+    serializer_class = FollowersAndFollowingSerializer
+
+    def get(self, request, username):
+
+        queryset = User.objects.get(username=username)
+
+        serializer = self.serializer_class(queryset)
+        return Response(serializer.data, status = status.HTTP_200_OK)

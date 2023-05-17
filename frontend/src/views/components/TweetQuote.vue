@@ -11,7 +11,7 @@
             leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
               <DialogPanel class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-lg">
                 
-                <TweetCommentBox @submit="proceedCreateTweetComment" :username="username" />
+                <RetweetQuoteBox @submit="proceedCreateQuoteTweet" />
                 
               </DialogPanel>
             </TransitionChild>
@@ -24,24 +24,24 @@
   <script setup>
   import { ref } from "vue"
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot} from "@headlessui/vue"
-  import TweetCommentBox from "@/views/components/TweetCommentBox.vue"
+  import RetweetQuoteBox from "@/views/components/RetweetQuoteBox.vue"
   import Tweet from "@/composables/Tweet.js"
   
   const props = defineProps(["open", "id", "username"])
   const emits = defineEmits(["closed"])
   const loading = ref(false)
-  const { createTweetComment } = Tweet()
+  const { quoteTweet } = Tweet()
   
   const closed = (code) => {
     emits("closed", code)
   }
   
-  const proceedCreateTweetComment = (text) => {
+  const proceedCreateQuoteTweet = (text) => {
   
     if(!loading.value){
       
       loading.value = true
-      createTweetComment(props.id, text).then((data) => {
+      quoteTweet(props.id, text).then((data) => {
   
         loading.value = false        
         if(data.status == 201){
