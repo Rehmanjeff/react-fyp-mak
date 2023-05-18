@@ -265,22 +265,17 @@ class ChangePasswordView(APIView):
 
 class FollowUserAPIView(APIView):
 
-    """
-    APIView to make a request (or directly follow is user to be followed
-    has a public account) by an authenticated user.
-    """
     permission_classes = (IsVerifiedUser,)
 
-    def post(self,request, to_follow_id):
-
+    def post(self, request, to_follow_id):
         if not to_follow_id:
-            return Response(
-                {'error': 'Follow request\'s user ID not provided.'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response({'error': 'Follow request\'s user ID not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         user = get_object_or_404(User, id=to_follow_id)
         request.user.follow(user)
-        return Response({'detail': 'requested'})
+        
+        # Return the ID of the followed user
+        return Response({'followed_user_id': user.id}, status=status.HTTP_200_OK)
 
 
 class FollowRequestActionAPIView(APIView):

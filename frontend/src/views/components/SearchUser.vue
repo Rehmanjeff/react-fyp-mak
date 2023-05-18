@@ -19,7 +19,7 @@
             <div v-if="search.results.length == 0" class="mt-5 mx-3">No results found</div>
             <div v-else class="flex flex-col mt-3">
                 <div v-for="searchResult in search.results" :key="searchResult.username" class="p-3 hover:bg-theme-gray-light">
-                    <RouterLink class="flex flex-row gap-3" :to="{ name: 'Profile', params: { username: searchResult.username } }">
+                    <RouterLink @click="resetSearch" class="flex flex-row gap-3" :to="{ name: 'Profile', params: { username: searchResult.username } }">
                         <div>
                             <img class="rounded-full" :src="'/assets/images/default_profile.png'" :alt="searchResult.username" /> 
                         </div>

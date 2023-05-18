@@ -9,10 +9,24 @@
       </div>
     </div>
     <div class="flex flex-col pl-3">
-      <div class="flex flex-col">
-        <span class="font-semibold">{{ profileData ? profileData.first_name+' '+profileData.last_name : '' }}</span>
-        <span class="text-sm text-theme-gray-dark -mt-1 text-sm text-gray-500">@{{ profileData ? profileData.username : '' }}</span>
+      
+      <div v-if="$route.params.username" class="flex flex-row items-center">
+        <div class="flex flex-col">
+          <span class="font-semibold">{{ profileData ? profileData.first_name + " " + profileData.last_name : "" }}</span>
+          <span class="-mt-1 text-sm text-gray-500 text-theme-gray-dark">@{{ profileData ? profileData.username : "" }}</span>
+        </div>
+        <div class="flex flex-row gap-4 ml-auto">
+          <RouterLink class="flex items-center justify-center" :to="{ name: 'Messages' }">
+            <span class="px-5 py-1 font-semibold text-center bg-white border rounded-full cursor-pointer text-theme-blue border-theme-blue">Message</span>
+          </RouterLink>
+          <span @click="followUnfollow ? Unfollow() : Follow()" class="px-5 py-1 mr-5 font-semibold text-center text-white bg-black rounded-full cursor-pointer">{{ followUnfollow ? "Following" : "Follow" }}</span>
+        </div>
       </div>
+      <div v-else class="flex flex-col">
+        <span class="font-semibold">{{ profileData ? profileData.first_name + " " + profileData.last_name : ""}}</span>
+        <span class="-mt-1 text-sm text-gray-500 text-theme-gray-dark">@{{ profileData ? profileData.username : "" }}</span>
+      </div>
+
       <div class="flex flex-row w-full mt-2 text-md">
         <div class="flex w-1/2 items-center">
           <img src="/assets/images/date.png" class="h-fit mr-2" alt="" />
@@ -25,13 +39,13 @@
       </div>
       <div class="flex flex-row w-full mt-2 text-sm">
         <div class="flex w-1/4 gap-2 mt-4 text-gray-500">
-          <RouterLink :to="{ name: 'Following' }">
+          <RouterLink :to="{ name: 'Following', params: { username: username } }">
             <span class="mr-1 font-bold text-black">{{ profileData ? profileData.following_count : 0 }}</span>
             <span>Following</span>
           </RouterLink>
         </div>
         <div class="flex w-1/4 gap-2 mt-4 text-gray-500">
-          <RouterLink :to="{ name: 'Follower' }">
+          <RouterLink :to="{ name: 'Follower', params: { username: username } }">
             <span class="mr-1 font-bold text-black">{{ profileData ? profileData.followers_count : 0 }}</span>
             <span>Followers</span>
           </RouterLink>
@@ -74,17 +88,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue"
+import { ref, onMounted, watch, computed } from "vue"
 import LikesVue from "@/views/components/profile/Likes.vue"
 import MediaVue from "@/views/components/profile/Media.vue"
 import TweetsRepliesVue from "@/views/components/profile/Tweets-Replies.vue"
 import TweetsVue from "@/views/components/profile/Tweets.vue"
 import User from "@/composables/User.js"
 import Message from "@/views/components/Message.vue"
-import { useRoute } from "vue-router"
+import { useRoute, RouterLink } from "vue-router"
 
 const showMessage = ref(false)
-const { profile } = User()
+const { profile, follow, unfollow } = User()
 const profileData = ref(false)
 const token = localStorage.getItem("dynoAuthToken")
 const error = ref('')
@@ -92,15 +106,16 @@ const toastMessage = ref('')
 const route = useRoute()
 const username = ref(route.params.username)
 const reload = ref(false)
+const localUsername = localStorage.getItem("username")
 
 const activeTab = ref("tweets")
 function tabChange(value) {
   activeTab.value = value
 }
 
-watch( () => route.params.username, (newValue, oldValue) => {
+watch(() => route.params.username, (newValue, oldValue) => {
   
-  if (newValue !== oldValue) {
+  if(newValue !== oldValue){
     if (newValue === '') {
       
       username.value = ''
@@ -137,6 +152,36 @@ const userProfile = () => {
     }
   })
 }
+
+const Follow = () => {
+  
+  follow(profileData.value.id, token).then((data) => {
+    userProfile()
+  })
+}
+
+const Unfollow = () => {
+
+  unfollow(token, profileData.value.id).then((data) => {
+    userProfile()
+  })
+}
+
+const followUnfollow = computed(() => {
+  const followers = profileData.value.followers;
+
+  if (typeof followers === "object" && followers !== null) {
+    for(const key in followers){
+      
+      const item = followers[key].fields
+      if (localUsername === item.username) {
+        return true
+      }
+    }
+  }
+
+  return false
+})
 
 onMounted(() => {
   

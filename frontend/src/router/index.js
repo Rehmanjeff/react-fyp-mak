@@ -45,12 +45,12 @@ const routes = [
     component: ForgetPassword,
   },
   {
-    path: "/profile/followers",
+    path: "/profile/followers/:username?",
     name: "Follower",
     component: Follower,
   },
   {
-    path: "/profile/following",
+    path: "/profile/following/:username?",
     name: "Following",
     component: Following,
   },

@@ -17,9 +17,9 @@ const tweets = ref([])
 const route = useRoute()
 const username = ref(route.params.username)
 
-watch( () => route.params.username, (newValue, oldValue) => {
+watch(() => route.params.username, (newValue, oldValue) => {
   
-  if (newValue !== oldValue) {
+  if(newValue !== oldValue && route.name == 'Profile'){
     if (newValue === '') {
       
       username.value = ''

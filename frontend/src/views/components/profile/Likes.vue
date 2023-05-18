@@ -1,7 +1,7 @@
 <template>
     <div>
         <TweetView @likeClicked="toggleLiked" v-for="tweet in tweets" :key="tweet.id" :tweet="tweet" />
-        <div class="text-center mt-10 text-gray-400" v-if="tweets.length == 0">No tweets to show</div>
+        <div class="text-center mt-10 text-gray-400" v-if="tweets.length == 0">No likes to show</div>
     </div>
 </template>
 
@@ -17,9 +17,9 @@ const tweets = ref([])
 const route = useRoute()
 const username = ref(route.params.username)
 
-watch( () => route.params.username, (newValue, oldValue) => {
+watch(() => route.params.username, (newValue, oldValue) => {
   
-  if (newValue !== oldValue) {
+  if(newValue !== oldValue && route.name == 'Profile'){
     if (newValue === '') {
       
       username.value = ''

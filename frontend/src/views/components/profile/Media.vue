@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>This is Media Page</h3>
+        <div class="text-center mt-10 text-gray-400">No media to show</div>
     </div>
 </template>
 

@@ -21,6 +21,17 @@ const User = () => {
         }
     };
 
+    const follow = async (userId, token) => {
+      try {
+        
+        const response = await axios.post(`http://127.0.0.1:8000/accounts/api/follow-user/${userId}/`, {}, { headers: {"Authorization" : `Bearer ${token}`} });
+        return response;
+      }catch(err){
+
+          return err;
+      }
+    };
+
     const unfollow = async (token, id) => {
 
         try {
@@ -66,7 +77,8 @@ const User = () => {
         profile,
         unfollow,
         update,
-        account
+        account,
+        follow
     }
 };
 

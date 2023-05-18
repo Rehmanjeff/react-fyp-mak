@@ -1,8 +1,7 @@
 <template>
   <div>
     <div v-for="comment in comments" :key="comment.id">
-      <div>{{ comment.comment }}</div>
-      <TweetView @commentMade="userTweets()" @likeClicked="toggleLiked" :tweet="comment.tweet" />
+      <TweetView @commentMade="userTweets()" @likeClicked="toggleLiked" :tweet="comment.tweet" :comment="comment.comment" />
     </div>
     
     <div class="text-center mt-10 text-gray-400" v-if="comments.length == 0">No tweets to show</div>
