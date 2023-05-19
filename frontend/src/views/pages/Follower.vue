@@ -19,17 +19,35 @@
 </template>
   
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import FollowerFollowng from "@/views/components/profile/Follower-Followng.vue"
 import User from "@/composables/User.js"
+import { useRoute } from "vue-router"
 
 const { profile } = User()
 const userFollowers = ref([])
 const token = localStorage.getItem("dynoAuthToken")
+const route = useRoute()
+const username = ref(route.params.username)
+
+watch(() => route.params.username, (newValue, oldValue) => {
+  
+  if(newValue !== oldValue){
+    if(newValue === ''){
+      
+      username.value = ''
+      userProfile()
+    }else{
+      
+      username.value = route.params.username
+      userProfile()
+    }
+  }
+})
 
 const userProfile = () => {
 
-  profile(token).then((data) => {
+  profile(token, username.value).then((data) => {
       
     if(data.status == 200){
 
