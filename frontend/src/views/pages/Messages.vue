@@ -1,60 +1,66 @@
 <template>
-
   <div class="flex flex-row border-b border-theme-gray-border">
     <div class="flex flex-col w-2/6 max-h-screen overflow-y-auto">
-      <div class="flex flex-row items-center justify-center gap-3 rounded-full border border-theme-gray-border px-3 py-2 mt-2 mx-3">
+      <div
+        class="flex flex-row items-center justify-center gap-3 px-3 py-2 mx-3 mt-2 border rounded-full border-theme-gray-border">
         <div>
           <img src="/assets/images/search.png" alt="" />
         </div>
         <div>
-          <input class="w-full outline-none text-sm" type="text" placeholder="Search direct messages" />
+          <input class="w-full text-sm outline-none" type="text" placeholder="Search direct messages" />
         </div>
       </div>
       <div class="flex flex-col mt-3">
-        
-        <div v-for="(user, index) in users" :key="user.id" @click="userListClick(index)" class="flex flex-row p-3 gap-3" :class="user.active ? 'bg-theme-gray-light' : 'cursor-pointer hover:bg-theme-gray-light'">
+        <div v-for="user in user_message.users" :key="user.id" @click="userListClick(user.id)" class="flex flex-row gap-3 p-3 mb-2" :class="{ 'bg-theme-gray-light': selectedUserId === user.id || route.params.username === user.username, 'cursor-pointer hover:bg-theme-gray-light': selectedUserId !== user.id || route.params.username === user.username, }">
           <div>
-            <img class="rounded-full" :src="'/assets/images/'+user.image" :alt="user.name" />
+            <img class="rounded-full" src="/assets/images/default_profile.png" :alt="user.name" />
           </div>
-          <div class="flex flex-col">
+          <div class="flex flex-col w-full">
             <div class="flex flex-row items-center gap-1">
               <div class="font-semibold">{{ user.name }}</div>
-              <div class="text-sm text-theme-gray-dark">{{ user.username }}</div>
-              <div class="text-sm text-theme-gray-dark"> . {{ user.timeElapsed }}</div>
+              <div class="text-sm text-theme-gray-dark">
+                @{{ user.username }}
+              </div>
+              <div class="flex ml-auto text-sm text-theme-gray-dark">
+                {{ formatTimeAgo(user.messages[0].created_at) }}
+              </div>
             </div>
             <div class="text-sm text-theme-gray-dark">
-              {{ user.message }}
+              {{ user.messages[0].body }}
             </div>
           </div>
         </div>
-
       </div>
     </div>
-    <div class="flex flex-col w-4/6 border-r border-l border-theme-gray-border">
-      <div class="flex flex-col items-center justify-center mt-3 pb-10 border-b border-theme-gray-borders">
+    <div class="flex flex-col w-4/6 border-l border-r border-theme-gray-border">
+      <div class="flex flex-col items-center justify-center pb-10 mt-3 border-b border-theme-gray-borders">
         <div>
           <img class="rounded-full" src="/assets/images/default_profile.png" alt="" />
-        </div> 
-        <div class="font-semibold mt-1">Spotify</div>
-        <div class="text-sm text-theme-gray-dark">@spotify</div> 
-        <div class="flex flex-row items-center text-sm text-theme-gray-dark mt-4">
-          <div>Joined march 2018</div>
-          <div> . 535K followers</div>
+        </div>
+        <div class="mt-1 font-semibold">{{ profileData.first_name }}</div>
+        <div class="text-sm text-theme-gray-dark">
+          @{{ profileData.username }}
+        </div>
+        <div class="flex flex-row items-center mt-4 text-sm text-theme-gray-dark">
+          <div>{{ profileData.date_joined }}</div>
+          <div>. {{ profileData.followers_count }} Followers</div>
         </div>
       </div>
-      <div class="flex flex-col pt-5 h-full">
+      <div class="flex flex-col h-full pt-5">
         <div class="flex flex-col h-full overflow-y-auto h-max-500p">
-          
-          <div v-for="message in messages" :key="message.id" class="flex flex-col text-sm mb-4 w-fit px-3" :class="message.type == 'outbound' ? 'self-end' : 'self-start'">
-            <div class="bg-theme-blue text-white rounded-xl p-3 mb-1" :class="message.type == 'outbound' ? 'rounded-br-sm' : 'rounded-bl-sm'">{{ message.message }}</div>
-            <div class="text-theme-gray-dark">{{ message.time }}</div>
+          <div v-for="chat in partner_chat.slice().reverse()" :key="chat.id" class="flex flex-col px-3 mb-4 text-sm w-fit" :class="chat.msg_receiver.username != profileData.username ? 'self-end' : 'self-start'">
+            <div class="p-3 mb-1 text-center text-white bg-theme-blue rounded-xl" :class="chat.msg_receiver.username == profileData.username ? 'rounded-br-sm' : 'rounded-bl-sm'">
+              {{ chat.body }}
+            </div>
+            <div class="text-theme-gray-dark">
+              {{ formatDateTime(chat.created_at) }}
+            </div>
           </div>
-
         </div>
-        <div class="flex flex-row mt-auto p-2 border-t border-theme-gray-border">
-          <div class="w-full relative">
-            <input v-model="message" class="w-full bg-theme-gray-light p-4 rounded-lg outline-none" type="text" placeholder="start a new message" />
-            <div :class="message.length == 0 ? 'opacity-50' : 'cursor-pointer hover:bg-gray-300'" class="absolute right-4 top-2 rounded-full p-2">
+        <div class="flex flex-row p-2 mt-auto border-t border-theme-gray-border">
+          <div class="relative w-full">
+            <input v-model="message" class="w-full p-4 rounded-lg outline-none bg-theme-gray-light" type="text" placeholder="start a new message" />
+            <div @click="postMessage" :class=" message.length == 0 ? 'opacity-50' : 'cursor-pointer hover:bg-gray-300'" class="absolute p-2 rounded-full right-4 top-2">
               <img src="/assets/images/send.png" alt="" />
             </div>
           </div>
@@ -62,69 +68,116 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, watch } from "vue"
+import User from "@/composables/User.js"
+import { useRoute } from "vue-router"
+import Message from "@/composables/Message"
+import CommonFunctions from "@/composables/commonFunctions"
 
-const message = ref('')
+const message = ref("")
+const profileData = ref(false)
+const { formatTimeAgo, formatDateTime } = CommonFunctions()
+const { profile } = User()
+const { partnerList, messageChat, postChat } = Message()
+const token = localStorage.getItem("dynoAuthToken")
+const route = useRoute()
+const username = route.params.username
+const user_message = ref([])
+const partner_chat = ref([])
+const messageId = ref("")
+const selectedUserId = ref(null)
+const idd = ref("")
 
-const users = ref([
-  { 
-    id: 1, 
-    name: 'spotify', 
-    username: '@spotify123', 
-    image: 'default_profile.png', 
-    timeElapsed: '42m', 
-    message: 'Hello', 
-    active: true, 
-    'messages': [
-      { id: 1, message: 'first message', time: '10:57AM', type: 'outbound' },
-      { id: 4, message: 'second message', time: '10:59AM', type: 'outbound' },
-      { id: 8, message: 'Reply to messages above', time: '02:03PM', type: 'inbound' },
-    ]
-  },
-  { 
-    id: 2, 
-    name: 'edsheeran', 
-    username: '@edsher', 
-    image: 'default_profile.png', 
-    timeElapsed: '20m', 
-    message: '', 
-    active: false, 
-    'messages': [
-      { id: 1, message: 'first message to sheeran', time: '01:56AM', type: 'outbound' },
-      { id: 4, message: 'sheeran replied to first message', time: '01:59AM', type: 'inbound' },
-      { id: 8, message: 'Thanks for the reply', time: '05:03PM', type: 'outbound' },
-    ]
-  },
-  { 
-    id: 3, 
-    name: 'galo', 
-    username: '@galaleo', 
-    image: 'default_profile.png', 
-    timeElapsed: '3h', 
-    message: 'Reply to messages above', 
-    active: false, 
-    'messages': [
-      { id: 1, message: 'first message', time: '10:57AM', type: 'outbound' },
-      { id: 4, message: 'second message', time: '10:59AM', type: 'outbound' },
-      { id: 8, message: 'Reply to messages above', time: '02:03PM', type: 'inbound' },
-    ]
-  },
-])
+const postMessage = () => {
+  const data = {
+    message: message.value,
+  }
+  postChat(token, messageId.value, data).then((data) => {
 
-const messages = ref(users.value[0].messages)
+    if (data.status == 201) {
+
+      userChat(messageId.value)
+    }
+  })
+  resetValue()
+}
 
 const userListClick = (id) => {
 
-  messages.value = users.value[id].messages
-  for (let i = 0; i < users.value.length; i++) {
-    
-    users.value[i].active = false
-  }
-  users.value[id].active = true
+  userChat(id)
+  selectedUserId.value = id
+  messageId.value = id
 }
+
+const userChat = (userid) => {
+  messageChat(token, userid).then((data) => {
+    partner_chat.value = data.data.messages
+  })
+}
+
+const resetValue = () => {
+
+  message.value = ""
+}
+
+const messages = () => {
+  partnerList(token).then((data) => {
+    user_message.value = data.data
+  })
+}
+
+const userProfile = () => {
+  profile(token, username).then((data) => {
+    if (data.status == 200) {
+      profileData.value = data.data
+      const [dobyear, dobmonth, dobday] = data.data.date_of_birth.split("-")
+      const [year, month, day] = data.data.date_joined.split("-")
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ]
+      const dobMonthName = months[parseInt(dobmonth) - 1]
+      const monthName = months[parseInt(month) - 1]
+      profileData.value.date_of_birth =
+        dobMonthName + " " + dobday + ", " + dobyear
+      profileData.value.date_joined = monthName + ", " + year
+    } else {
+      if (data.response) {
+        error.value = data.response.data.detail
+      }
+      error.value = data.message
+    }
+  })
+}
+
+watch(() => user_message.value, (newVal, oldVal) => {
+
+    for (let index = 0; index < user_message.value.users.length; index++) {
+      if (user_message.value.users[index].username == route.params.username) {
+        userChat(user_message.value.users[index].id)
+        break
+      }
+    }
+  }
+)
+
+onMounted(() => {
+
+  userProfile()
+  messages()
+})
 
 </script>

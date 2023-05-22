@@ -27,7 +27,7 @@ const routes = [
     }
   },
   {
-    path: "/messages",
+    path: "/messages/:username?",
     name: "Messages",
     component: Messages,
     meta: {
