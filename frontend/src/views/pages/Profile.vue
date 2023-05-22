@@ -16,7 +16,7 @@
           <span class="-mt-1 text-sm text-gray-500 text-theme-gray-dark">@{{ profileData ? profileData.username : "" }}</span>
         </div>
         <div class="flex flex-row gap-4 ml-auto">
-          <RouterLink class="flex items-center justify-center" :to="{ name: 'Messages' }">
+          <RouterLink class="flex items-center justify-center" :to="{ name: 'Messages', params: {username: username} }">
             <span class="px-5 py-1 font-semibold text-center bg-white border rounded-full cursor-pointer text-theme-blue border-theme-blue">Message</span>
           </RouterLink>
           <span @click="followUnfollow ? Unfollow() : Follow()" class="px-5 py-1 mr-5 font-semibold text-center text-white bg-black rounded-full cursor-pointer">{{ followUnfollow ? "Following" : "Follow" }}</span>
