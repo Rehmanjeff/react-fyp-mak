@@ -139,3 +139,17 @@ class PostUserChat(generics.CreateAPIView):
 
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+class GetUserId(generics.RetrieveAPIView):
+    permission_classes = [IsVerifiedUser]
+    queryset = User.objects.all()
+    lookup_field = 'username'
+
+    def get(self, request, *args, **kwargs):
+        username = self.kwargs['username']
+        try:
+            user = self.get_object()
+            user_id = user.id
+            return JsonResponse({'user_id': user_id})
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
