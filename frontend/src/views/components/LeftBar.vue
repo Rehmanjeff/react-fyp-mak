@@ -13,7 +13,7 @@
     <div class="my-4 pr-10">
       <div @click="open = true" class="py-3 px-2 rounded-full text-center cursor-pointer bg-theme-blue text-white font-semibold text-lg hover:bg-theme-blue-darker">Tweet</div>
     </div>
-    <div v-if="userMenu" @click.stop="userMenu = true" class="fixed border rounded-lg bottom-24">
+    <div v-if="userMenu" @click.stop="userMenu = true" class="fixed w-1/6 border rounded-lg bottom-24">
       <hr class="mt-3" />
       <div @click="proceedLogout" class="px-12 py-4 font-semibold cursor-pointer text-semibold hover:bg-gray-100">
         Log out @{{ localUsername }}
